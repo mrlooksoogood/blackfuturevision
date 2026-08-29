@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Policies — Black Future Vision</title>
+<meta name="description" content="Licensing, refunds, terms, and privacy for Black Future Vision digital art. Plain-language and human.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground: #f7f1e3; --surface: #fffdf7; --surface-2: #f1e9d5;
+  --ink: #1a1710; --ink-soft: #4d4636; --ink-faint: #857c66;
+  --line: #ded3bb; --line-strong: #c9bd9c;
+  --gold: #96680b; --gold-bright: #bd8c14; --moss: #55702f; --teal: #197a66;
+  --glow-1: rgba(150,104,11,.15); --glow-2: rgba(85,112,47,.14);
+  --shadow: 0 2px 8px rgba(26,23,16,.06), 0 20px 50px rgba(26,23,16,.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0a0d0a; --surface: #121a14; --surface-2: #182619;
+    --ink: #f4ecd8; --ink-soft: #c0c5ac; --ink-faint: #8a8f76;
+    --line: rgba(255,255,255,.10); --line-strong: rgba(255,255,255,.18);
+    --gold: #e6c04e; --gold-bright: #ffd873; --moss: #93b25e; --teal: #3fd0b4;
+    --glow-1: rgba(230,192,78,.18); --glow-2: rgba(147,178,94,.20);
+    --shadow: 0 2px 8px rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.60);
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0a0d0a; --surface: #121a14; --surface-2: #182619;
+  --ink: #f4ecd8; --ink-soft: #c0c5ac; --ink-faint: #8a8f76;
+  --line: rgba(255,255,255,.10); --line-strong: rgba(255,255,255,.18);
+  --gold: #e6c04e; --gold-bright: #ffd873; --moss: #93b25e; --teal: #3fd0b4;
+  --glow-1: rgba(230,192,78,.18); --glow-2: rgba(147,178,94,.20);
+  --shadow: 0 2px 8px rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.60);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Sora', system-ui, sans-serif; background: var(--ground); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.wrap { width: 100%; max-width: 780px; margin: 0 auto; padding: 0 26px; }
+h1, h2, h3 { font-family: 'Unbounded', system-ui, sans-serif; letter-spacing: -0.02em; text-wrap: balance; line-height: 1.12; }
+.mono { font-family: 'Space Mono', monospace; }
+.eyebrow { font-family: 'Space Mono', monospace; font-size: .74rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+
+nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 18px 26px; background: var(--ground); border-bottom: 1px solid var(--line); }
+.brandmark { display: flex; align-items: center; gap: 11px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.dot { width: 26px; height: 26px; border-radius: 50%; flex: none; background: radial-gradient(circle at 32% 30%, var(--gold-bright), var(--moss) 70%, var(--teal)); box-shadow: 0 0 14px var(--glow-1); }
+.nav-cta { font-family: 'Space Mono', monospace; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-decoration: none; color: #17120a; background: var(--gold); padding: 9px 18px; border-radius: 100px; transition: transform .15s, box-shadow .15s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px var(--glow-1); }
+
+header.page { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+header.page::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(46% 70% at 26% 12%, var(--glow-2), transparent 62%), radial-gradient(50% 70% at 80% 40%, var(--glow-1), transparent 66%); }
+.page-inner { position: relative; z-index: 2; padding: 60px 0 46px; text-align: center; }
+h1.page-title { font-size: clamp(2rem, 5vw, 2.9rem); font-weight: 800; margin-top: 14px; }
+h1.page-title .grad { background: linear-gradient(100deg, var(--gold-bright), var(--gold) 42%, var(--moss)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.page-sub { margin: 18px auto 0; font-size: 1rem; color: var(--ink-soft); max-width: 52ch; }
+
+.toc { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
+.toc a { font-family: 'Space Mono', monospace; font-size: .72rem; font-weight: 700; letter-spacing: .06em; text-decoration: none; color: var(--ink-soft); border: 1px solid var(--line-strong); padding: 8px 15px; border-radius: 100px; transition: all .15s; }
+.toc a:hover { color: var(--gold); border-color: var(--gold); }
+
+.disclaimer { max-width: 780px; margin: 26px auto 0; padding: 14px 20px; border-left: 3px solid var(--gold); background: var(--surface-2); border-radius: 0 12px 12px 0; color: var(--ink-soft); font-size: .9rem; }
+.disclaimer b { color: var(--ink); }
+
+main { padding: 26px 0 20px; }
+section.legal { padding: 40px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
+section.legal:last-child { border-bottom: none; }
+.legal h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; }
+.legal .updated { font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--ink-faint); margin-top: 8px; }
+.legal p { margin-top: 16px; color: var(--ink-soft); }
+.legal p:first-of-type { margin-top: 20px; }
+.legal ul, .legal ol { margin: 14px 0 0 22px; color: var(--ink-soft); }
+.legal li { margin-top: 8px; }
+.legal b { color: var(--ink); }
+.legal a { color: var(--gold); }
+.legal h3 { font-size: 1.02rem; font-family: 'Sora', sans-serif; font-weight: 600; color: var(--ink); margin-top: 22px; }
+.yes { color: var(--moss); } .no { color: #c0532b; }
+@media (prefers-color-scheme: dark) { .no { color: #e08a5a; } }
+:root[data-theme="dark"] .no { color: #e08a5a; }
+
+footer { border-top: 1px solid var(--line); background: var(--surface-2); margin-top: 20px; }
+.foot { max-width: 1140px; margin: 0 auto; padding: 48px 26px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+.foot .left { max-width: 40ch; }
+.foot .left p { margin-top: 12px; color: var(--ink-soft); font-size: .95rem; }
+.foot .links { display: flex; gap: 44px; flex-wrap: wrap; }
+.foot .col h4 { font-family: 'Space Mono', monospace; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+.foot .col a { display: block; color: var(--ink-soft); text-decoration: none; font-size: .95rem; padding: 3px 0; }
+.foot .col a:hover { color: var(--gold); }
+.foot-base { border-top: 1px solid var(--line); max-width: 1140px; margin: 0 auto; padding: 20px 26px; font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--ink-faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+a:focus-visible, .nav-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+@media (max-width: 640px) { .wrap { padding: 0 20px; } nav { padding: 12px 16px; } .brandmark { font-size: .8rem; gap: 8px; } .page-inner { padding: 44px 0 36px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html#top" class="brandmark"><span class="dot" aria-hidden="true"></span>Black Future Vision</a>
+  <a href="shop.html" class="nav-cta">Shop the collection →</a>
+</nav>
+
+<header class="page">
+  <div class="wrap page-inner">
+    <span class="eyebrow">Policies</span>
+    <h1 class="page-title">The <span class="grad">fine print</span>, kept human</h1>
+    <p class="page-sub">Licensing, refunds, terms, and privacy — in plain language, the way it should be.</p>
+    <nav class="toc" aria-label="Policies">
+      <a href="#licensing">Licensing &amp; Usage</a>
+      <a href="#refunds">Refunds</a>
+      <a href="#terms">Terms</a>
+      <a href="#privacy">Privacy</a>
+    </nav>
+  </div>
+  <p class="disclaimer"><b>Please note:</b> these policies are written in plain language for clarity, not as legal advice. Last updated August 2026.</p>
+</header>
+
+<main class="wrap">
+
+  <section class="legal" id="licensing">
+    <h2>Licensing &amp; Usage Rights</h2>
+    <p>When you buy a Black Future Vision artwork, you're buying a <b>license to use the file</b> — not the copyright itself. Black Future Vision keeps ownership of the original artwork at all times.</p>
+    <h3><span class="yes">✔</span> Your personal-use license includes</h3>
+    <ul>
+      <li>Printing the art for your own home, office, or personal space — as many prints as you like, at any size.</li>
+      <li>Framing it, putting it on canvas, and giving a printed copy as a gift.</li>
+      <li>Personal, non-commercial enjoyment.</li>
+    </ul>
+    <h3><span class="no">✕</span> Not included in the personal license</h3>
+    <ul>
+      <li>Selling, sharing, or redistributing the <b>file itself</b>.</li>
+      <li>Putting the art on products you sell — apparel, DTF/sublimation transfers, mugs, prints for resale, or any merchandise.</li>
+      <li>Using it in branding, advertising, or anything you profit from.</li>
+      <li>Claiming the artwork as your own.</li>
+    </ul>
+    <h3>💼 Commercial license (available)</h3>
+    <p>Want to use a piece commercially? We offer a commercial license <b>starting at $99</b>, scoped to how you plan to use it. Email <a href="mailto:support@blackfuturevision.com">support@blackfuturevision.com</a> with the piece and your intended use, and we'll get you set up quickly.</p>
+  </section>
+
+  <section class="legal" id="refunds">
+    <h2>Refund &amp; Return Policy</h2>
+    <p><b>Digital downloads are non-refundable.</b> Because you receive the full high-resolution file instantly, all sales are final once delivered — there's nothing to physically return, and the file can't be "given back." This is standard practice for digital art, and we appreciate your understanding. 🙏</p>
+    <h3>We will always make it right when something's wrong on our end</h3>
+    <p>If any of these happen, contact us and we'll fix it, fast:</p>
+    <ul>
+      <li>Your file won't download or the link is broken.</li>
+      <li>The file is corrupt, damaged, or won't open.</li>
+      <li>You received the wrong file.</li>
+    </ul>
+    <p><b>How to get help:</b> email <a href="mailto:support@blackfuturevision.com">support@blackfuturevision.com</a> (or message us on Etsy for Etsy orders) with your <b>order number</b> and a short description. We'll re-send a working file or provide a replacement — usually the same day.</p>
+    <p>If you have any doubt about specs or sizing <b>before</b> you buy, please ask first — we'd rather help you choose the right piece than leave you unsure after. See our <a href="support.html#faq">FAQ</a> for file details.</p>
+  </section>
+
+  <section class="legal" id="terms">
+    <h2>Terms of Service</h2>
+    <p>By purchasing from Black Future Vision, you agree to the following:</p>
+    <ol>
+      <li><b>What you're buying.</b> A <b>license to use a digital artwork file</b> for the uses described in our Licensing &amp; Usage section — not the copyright or ownership of the original artwork.</li>
+      <li><b>Ownership.</b> All artwork, designs, and files remain the intellectual property of Black Future Vision. Copyright stays with us at all times.</li>
+      <li><b>Acceptable use.</b> You may use your purchase under the personal-use license included with every order. Commercial use requires a separate commercial license.</li>
+      <li><b>No redistribution.</b> You may not share, resell, redistribute, sublicense, or give away the digital file itself. You may print it for your own use as described above.</li>
+      <li><b>Delivery.</b> Products are delivered as instant digital downloads. No physical item is shipped.</li>
+      <li><b>Support &amp; fixes.</b> If a file is defective or won't download, we'll replace it (see our Refund Policy).</li>
+      <li><b>Changes.</b> We may update these terms from time to time. The current version always lives on this page.</li>
+    </ol>
+  </section>
+
+  <section class="legal" id="privacy">
+    <h2>Privacy Policy</h2>
+    <p>Black Future Vision respects your privacy. Here's the honest, simple version:</p>
+    <ul>
+      <li><b>What we collect:</b> your <b>email address</b> (to deliver your download and send your receipt) and your order details. Payment information is handled entirely by <b>Payhip</b>, our payment processor — we never see or store your full card number.</li>
+      <li><b>How we use it:</b> to deliver your artwork, send your confirmation and download link, provide support, and — only if you opt in — send occasional updates about new work. That's it.</li>
+      <li><b>What we don't do:</b> we <b>do not sell, rent, or trade your information</b> to anyone. Ever.</li>
+      <li><b>Payments:</b> processed securely by <b>Payhip</b>. Your card details go to them, not to us.</li>
+      <li><b>Your choices:</b> you can ask us to remove your information, or unsubscribe from emails, any time — just email <a href="mailto:support@blackfuturevision.com">support@blackfuturevision.com</a>.</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="left">
+      <a href="index.html#top" class="brandmark"><span class="dot" aria-hidden="true"></span>Black Future Vision</a>
+      <p>Afrofuturist digital art, made in California. Cosmic, ancestral, and printed for your walls.</p>
+    </div>
+    <div class="links">
+      <div class="col">
+        <h4>Shop</h4>
+        <a href="shop.html">All prints</a>
+        <a href="index.html#gallery">Featured work</a>
+        <a href="https://www.etsy.com/shop/BlackFutureVision" target="_blank" rel="noopener">On Etsy</a>
+      </div>
+      <div class="col">
+        <h4>Support</h4>
+        <a href="support.html#how-it-works">How it works</a>
+        <a href="support.html#faq">FAQ</a>
+        <a href="support.html#contact">Contact</a>
+      </div>
+      <div class="col">
+        <h4>Policies</h4>
+        <a href="policies.html#licensing">Licensing</a>
+        <a href="policies.html#refunds">Refunds</a>
+        <a href="policies.html#terms">Terms</a>
+        <a href="policies.html#privacy">Privacy</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Black Future Vision</span>
+    <span>blackfuturevision.com</span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Help & FAQ — Black Future Vision</title>
+<meta name="description" content="How to download, print, resize, and license your Black Future Vision digital art. Instant downloads, high-resolution files, and friendly support.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ground: #f7f1e3; --surface: #fffdf7; --surface-2: #f1e9d5;
+  --ink: #1a1710; --ink-soft: #4d4636; --ink-faint: #857c66;
+  --line: #ded3bb; --line-strong: #c9bd9c;
+  --gold: #96680b; --gold-bright: #bd8c14; --moss: #55702f; --teal: #197a66;
+  --glow-1: rgba(150,104,11,.15); --glow-2: rgba(85,112,47,.14);
+  --shadow: 0 2px 8px rgba(26,23,16,.06), 0 20px 50px rgba(26,23,16,.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0a0d0a; --surface: #121a14; --surface-2: #182619;
+    --ink: #f4ecd8; --ink-soft: #c0c5ac; --ink-faint: #8a8f76;
+    --line: rgba(255,255,255,.10); --line-strong: rgba(255,255,255,.18);
+    --gold: #e6c04e; --gold-bright: #ffd873; --moss: #93b25e; --teal: #3fd0b4;
+    --glow-1: rgba(230,192,78,.18); --glow-2: rgba(147,178,94,.20);
+    --shadow: 0 2px 8px rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.60);
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0a0d0a; --surface: #121a14; --surface-2: #182619;
+  --ink: #f4ecd8; --ink-soft: #c0c5ac; --ink-faint: #8a8f76;
+  --line: rgba(255,255,255,.10); --line-strong: rgba(255,255,255,.18);
+  --gold: #e6c04e; --gold-bright: #ffd873; --moss: #93b25e; --teal: #3fd0b4;
+  --glow-1: rgba(230,192,78,.18); --glow-2: rgba(147,178,94,.20);
+  --shadow: 0 2px 8px rgba(0,0,0,.45), 0 24px 60px rgba(0,0,0,.60);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Sora', system-ui, sans-serif; background: var(--ground); color: var(--ink); line-height: 1.7; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+.wrap { width: 100%; max-width: 820px; margin: 0 auto; padding: 0 26px; }
+h1, h2, h3, .display { font-family: 'Unbounded', system-ui, sans-serif; letter-spacing: -0.02em; text-wrap: balance; line-height: 1.1; }
+.eyebrow { font-family: 'Space Mono', monospace; font-size: .74rem; font-weight: 700; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+
+nav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 18px 26px; background: var(--ground); border-bottom: 1px solid var(--line); }
+.brandmark { display: flex; align-items: center; gap: 11px; font-family: 'Unbounded', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.dot { width: 26px; height: 26px; border-radius: 50%; flex: none; background: radial-gradient(circle at 32% 30%, var(--gold-bright), var(--moss) 70%, var(--teal)); box-shadow: 0 0 14px var(--glow-1); }
+.nav-cta { font-family: 'Space Mono', monospace; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-decoration: none; color: #17120a; background: var(--gold); padding: 9px 18px; border-radius: 100px; transition: transform .15s, box-shadow .15s; }
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px var(--glow-1); }
+
+header.page { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+header.page::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(46% 70% at 26% 12%, var(--glow-2), transparent 62%), radial-gradient(50% 70% at 80% 40%, var(--glow-1), transparent 66%); }
+.page-inner { position: relative; z-index: 2; padding: 66px 0 52px; text-align: center; }
+h1.page-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-top: 14px; }
+h1.page-title .grad { background: linear-gradient(100deg, var(--gold-bright), var(--gold) 42%, var(--moss)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.page-sub { margin: 20px auto 0; font-size: clamp(1rem, 1.6vw, 1.14rem); color: var(--ink-soft); max-width: 52ch; }
+
+main { padding: 20px 0 40px; }
+section.block { padding: 44px 0 8px; }
+.block h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; }
+.block h2 .num { color: var(--gold); font-size: .7em; margin-right: .5ch; }
+.lede { margin: 16px 0 8px; color: var(--ink-soft); max-width: 60ch; }
+
+.steps { list-style: none; margin: 26px 0 0; display: grid; gap: 14px; }
+.steps li { position: relative; padding: 18px 20px 18px 60px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+.steps li b { display: block; font-family: 'Sora', sans-serif; font-weight: 600; color: var(--ink); }
+.steps li span { color: var(--ink-soft); font-size: .96rem; }
+.steps li::before { counter-increment: step; content: counter(step); position: absolute; left: 16px; top: 18px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; background: var(--gold); color: #17120a; font-family: 'Space Mono', monospace; font-weight: 700; font-size: .9rem; }
+.steps { counter-reset: step; }
+
+.note { margin-top: 24px; padding: 16px 20px; border-left: 3px solid var(--teal); background: var(--surface-2); border-radius: 0 12px 12px 0; color: var(--ink-soft); font-size: .95rem; }
+.note b { color: var(--ink); }
+
+.faqcat { font-family: 'Space Mono', monospace; font-size: .72rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin: 30px 0 6px; }
+details.faq { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); margin-top: 12px; box-shadow: var(--shadow); overflow: hidden; }
+details.faq[open] { border-color: var(--line-strong); }
+details.faq summary { list-style: none; cursor: pointer; padding: 18px 52px 18px 22px; position: relative; font-family: 'Sora', sans-serif; font-weight: 600; font-size: 1.02rem; color: var(--ink); }
+details.faq summary::-webkit-details-marker { display: none; }
+details.faq summary::after { content: "+"; position: absolute; right: 22px; top: 50%; transform: translateY(-50%); font-family: 'Space Mono', monospace; font-size: 1.4rem; color: var(--gold); transition: transform .2s; }
+details.faq[open] summary::after { content: "\2013"; }
+details.faq .ans { padding: 0 22px 20px; color: var(--ink-soft); font-size: .98rem; }
+details.faq .ans p { margin-top: 10px; }
+details.faq .ans p:first-child { margin-top: 0; }
+details.faq .ans ol, details.faq .ans ul { margin: 12px 0 0 20px; }
+details.faq .ans li { margin-top: 6px; }
+details.faq .ans a { color: var(--gold); }
+details.faq .ans b { color: var(--ink); }
+
+.cta-band { position: relative; overflow: hidden; text-align: center; border-radius: 24px; margin: 48px 0 8px; padding: 60px 32px; background: linear-gradient(150deg, var(--surface-2), var(--surface)); border: 1px solid var(--line-strong); box-shadow: var(--shadow); }
+.cta-band::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(45% 90% at 20% 10%, var(--glow-2), transparent 60%), radial-gradient(50% 90% at 82% 90%, var(--glow-1), transparent 60%); }
+.cta-band > * { position: relative; z-index: 2; }
+.cta-band h2 { font-size: clamp(1.6rem, 3.4vw, 2.4rem); font-weight: 700; max-width: 20ch; margin: 0 auto; }
+.cta-band p { margin: 16px auto 28px; color: var(--ink-soft); max-width: 46ch; }
+.btn { font-family: 'Space Mono', monospace; font-weight: 700; font-size: .84rem; letter-spacing: .04em; text-decoration: none; padding: 15px 26px; border-radius: 100px; display: inline-flex; align-items: center; gap: 10px; transition: transform .15s, box-shadow .15s; }
+.btn-primary { background: var(--gold); color: #17120a; box-shadow: 0 8px 24px var(--glow-1); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--glow-1); }
+
+footer { border-top: 1px solid var(--line); background: var(--surface-2); margin-top: 20px; }
+.foot { max-width: 1140px; margin: 0 auto; padding: 48px 26px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 30px; }
+.foot .left { max-width: 40ch; }
+.foot .left p { margin-top: 12px; color: var(--ink-soft); font-size: .95rem; }
+.foot .links { display: flex; gap: 44px; flex-wrap: wrap; }
+.foot .col h4 { font-family: 'Space Mono', monospace; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+.foot .col a { display: block; color: var(--ink-soft); text-decoration: none; font-size: .95rem; padding: 3px 0; }
+.foot .col a:hover { color: var(--gold); }
+.foot-base { border-top: 1px solid var(--line); max-width: 1140px; margin: 0 auto; padding: 20px 26px; font-family: 'Space Mono', monospace; font-size: .72rem; color: var(--ink-faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+a:focus-visible, .btn:focus-visible, .nav-cta:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  nav { padding: 12px 16px; }
+  .brandmark { font-size: .8rem; gap: 8px; }
+  .page-inner { padding: 46px 0 40px; }
+  .cta-band { padding: 44px 22px; border-radius: 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html#top" class="brandmark"><span class="dot" aria-hidden="true"></span>Black Future Vision</a>
+  <a href="shop.html" class="nav-cta">Shop the collection →</a>
+</nav>
+
+<header class="page">
+  <div class="wrap page-inner">
+    <span class="eyebrow">Help &amp; FAQ</span>
+    <h1 class="page-title">How to get, print, and <span class="grad">love your art</span></h1>
+    <p class="page-sub">Everything about downloads, printing, sizing, and licensing — plus real humans to help if you get stuck.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="block" id="how-it-works">
+    <h2><span class="num mono">01</span>How it works</h2>
+    <p class="lede">Buying a Black Future Vision piece is instant and simple — no shipping, no waiting.</p>
+    <ol class="steps">
+      <li><b>Choose your piece and check out.</b><span>Every artwork is a digital download. No shipping, ready the same day.</span></li>
+      <li><b>Download right away.</b><span>The moment your payment clears, your link appears on the confirmation screen — and we email you a copy too.</span></li>
+      <li><b>Save the file somewhere safe.</b><span>Download on a computer if you can, and keep the original so you can re-download or reprint any time.</span></li>
+      <li><b>Print it your way.</b><span>At home, through an online print service, or at a local shop. Tips are in the FAQ below.</span></li>
+    </ol>
+    <p class="note"><b>Etsy buyers:</b> your files are under <b>Purchases and reviews</b> on Etsy, and in the confirmation email Etsy sends. Check your spam folder if you don't see it.</p>
+  </section>
+
+  <section class="block" id="faq">
+    <h2><span class="num mono">02</span>Frequently asked questions</h2>
+
+    <p class="faqcat">Downloads &amp; delivery</p>
+
+    <details class="faq"><summary>I paid — where's my download?</summary>
+      <div class="ans"><p>Thank you for your order! 🙏 Your download is available <b>instantly</b> in two places: on the confirmation screen right after checkout, and in the confirmation email we send you. If you bought on Etsy, you'll also find it under <b>Purchases and reviews</b>. If the email hasn't arrived in a few minutes, please check your <b>spam/junk</b> folder — that's where it hides most often.</p></div>
+    </details>
+
+    <details class="faq"><summary>The download won't open, or the file looks damaged.</summary>
+      <div class="ans"><p>I'm sorry about that — let's fix it right away. First, try downloading again from your confirmation email or account (a download can cut off if the connection drops mid-transfer), and open it on a computer rather than a phone. If it still won't open, email us at <a href="mailto:support@blackfuturevision.com">support@blackfuturevision.com</a> with your order number and we'll re-send a fresh file the same day. You will not be left without your art. 💫</p></div>
+    </details>
+
+    <details class="faq"><summary>Do I really get it instantly? When does it arrive?</summary>
+      <div class="ans"><p>Yes — it's a digital download, so there's no shipping. Your file is ready the second your payment goes through, and we email you a copy too. Nothing is mailed physically.</p></div>
+    </details>
+
+    <details class="faq"><summary>Can I download it again later?</summary>
+      <div class="ans"><p>Absolutely. Your download link stays available in your confirmation email and your account, so you can re-download whenever you need it. We recommend saving the original file somewhere safe (a cloud drive is ideal) so you always have it.</p></div>
+    </details>
+
+    <p class="faqcat">File specs &amp; printing</p>
+
+    <details class="faq"><summary>Is this high resolution? What are the exact dimensions?</summary>
+      <div class="ans"><p>Yes — these are made for the wall. Each piece is delivered as a <b>high-resolution JPEG</b>, roughly <b>8000 × 10000 pixels</b> at <b>300 DPI</b>, in a <b>4:5 aspect ratio</b>. Some listings also include a PNG or PDF. At 300 DPI it prints crisp and gallery-clean at everyday sizes and scales beautifully <b>up to about 60 inches</b> on the long edge.</p></div>
+    </details>
+
+    <details class="faq"><summary>Can I print it at 40×60 / 24×36 / 20×30 / 16×20?</summary>
+      <div class="ans"><p>Great question. The native <b>4:5 ratio</b> fits standard frame sizes like <b>8×10, 16×20, 24×30, and up to 48×60</b> with no cropping. Sizes with a different shape — like 24×36, 20×30, or 40×60 (those are 2:3) — will need a little cropping, or we're happy to prepare a <b>custom-sized version</b> cut to the exact dimensions you want. Just <a href="mailto:support@blackfuturevision.com">email us</a> the size and we'll sort it out.</p></div>
+    </details>
+
+    <details class="faq"><summary>How do I resize it myself?</summary>
+      <div class="ans"><p>Easy, and free. Open the file in <b>Photopea</b> (<a href="https://www.photopea.com" target="_blank" rel="noopener">photopea.com</a> — a free in-browser editor):</p>
+      <ol>
+        <li>Go to <b>Image → Image Size</b>.</li>
+        <li>Turn on <b>"keep proportions"</b> (the little chain icon) so it doesn't stretch.</li>
+        <li>Set <b>Resolution to 300</b> and enter your target width or height.</li>
+        <li><b>File → Export as → JPG</b> (or PNG) and print.</li>
+      </ol>
+      <p>If the size you want has a different shape than 4:5, crop gently from the edges — or let us make a custom file so nothing important gets cut.</p></div>
+    </details>
+
+    <details class="faq"><summary>Where should I print it? Can I print on canvas?</summary>
+      <div class="ans"><p>You've got three good options:</p>
+      <ul>
+        <li><b>At home</b> — fine for smaller sizes on quality photo paper; set your printer to its best/photo setting and 300 DPI.</li>
+        <li><b>An online print service</b> — for large, framed, and <b>canvas</b> prints, services like CanvasPop, Fine Art America, or Printful do beautiful work. Upload, pick your size and material, done.</li>
+        <li><b>A local print shop</b> — bring the file on a USB drive; ask for 300 DPI and matte or luster paper.</li>
+      </ul>
+      <p>For canvas: a <b>gallery-wrapped canvas</b> at 300 DPI looks stunning with these pieces — the deep blacks and gold really come alive on textured canvas.</p></div>
+    </details>
+
+    <p class="faqcat">Licensing &amp; usage</p>
+
+    <details class="faq"><summary>Can I use this commercially — on merch, DTF, products to sell?</summary>
+      <div class="ans"><p>Your purchase includes a <b>personal-use license</b>: print it, frame it, hang it, gift it, enjoy it at home or the office. <b>Commercial use</b> — putting the art on products you sell (apparel, DTF transfers, prints for resale, merchandise, branding) — requires a separate <b>commercial license</b>, which we're glad to provide starting at <b>$99</b>. Just <a href="mailto:support@blackfuturevision.com">reach out</a> with the piece and how you'd like to use it. Full details on our <a href="policies.html#licensing">Licensing &amp; Usage</a> page.</p></div>
+    </details>
+
+    <p class="faqcat">Refunds</p>
+
+    <details class="faq"><summary>What's your refund policy on digital downloads?</summary>
+      <div class="ans"><p>Because these are instant digital files, <b>all sales are final</b> once the download is delivered — that's standard for digital art. <b>But we will always make it right</b> if something's wrong on our end: if your file is corrupt, won't download, or arrived damaged, contact us and we'll re-send a working file or a replacement, no hassle. See our full <a href="policies.html#refunds">Refund Policy</a>.</p></div>
+    </details>
+  </section>
+
+  <section class="block" id="contact">
+    <h2><span class="num mono">03</span>Still need help?</h2>
+    <p class="lede">We're a small, independent studio and we genuinely care about your experience. Whether it's a download hiccup, a sizing question, or a custom request — reach out.</p>
+    <p class="note"><b>Email:</b> <a href="mailto:support@blackfuturevision.com" style="color:var(--gold)">support@blackfuturevision.com</a> &nbsp;·&nbsp; <b>Etsy orders:</b> message us through the shop &nbsp;·&nbsp; <b>Response time:</b> within 48 hours, often sooner.</p>
+  </section>
+
+  <div class="cta-band">
+    <h2>Find your piece of the future</h2>
+    <p>High-resolution Afrofuturist art, delivered instantly, printed at any size.</p>
+    <a href="shop.html" class="btn btn-primary">Shop the collection →</a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <div class="left">
+      <a href="index.html#top" class="brandmark"><span class="dot" aria-hidden="true"></span>Black Future Vision</a>
+      <p>Afrofuturist digital art, made in California. Cosmic, ancestral, and printed for your walls.</p>
+    </div>
+    <div class="links">
+      <div class="col">
+        <h4>Shop</h4>
+        <a href="shop.html">All prints</a>
+        <a href="index.html#gallery">Featured work</a>
+        <a href="https://www.etsy.com/shop/BlackFutureVision" target="_blank" rel="noopener">On Etsy</a>
+      </div>
+      <div class="col">
+        <h4>Support</h4>
+        <a href="support.html#how-it-works">How it works</a>
+        <a href="support.html#faq">FAQ</a>
+        <a href="support.html#contact">Contact</a>
+      </div>
+      <div class="col">
+        <h4>Policies</h4>
+        <a href="policies.html#licensing">Licensing</a>
+        <a href="policies.html#refunds">Refunds</a>
+        <a href="policies.html#terms">Terms</a>
+        <a href="policies.html#privacy">Privacy</a>
+      </div>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© 2026 Black Future Vision</span>
+    <span>blackfuturevision.com</span>
+  </div>
+</footer>
+
+</body>
+</html>
