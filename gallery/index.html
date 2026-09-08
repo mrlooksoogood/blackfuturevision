@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hip Hop Immortals · Virtual Gallery · Black Future Vision</title>
+<meta name="description" content="Walk a private 3D gallery of hip hop legends and cosmic art, suspended in space. Black Future Vision.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230A0D0A'/><circle cx='16' cy='16' r='7' fill='%233FD0B4'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Sora:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#f4ecd8; --ink-soft:#b3a988; --gold:#e6c04e; --gold-ink:#17120a; --emerald:#3fd0b4; --ground:#05060a; }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--ground);color:var(--ink);font-family:'Sora',system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
+  #app{position:fixed;inset:0}
+  canvas{display:block;width:100%;height:100%;touch-action:none}
+  .vign{position:fixed;inset:0;z-index:5;pointer-events:none;box-shadow:inset 0 0 220px 40px rgba(0,0,0,.65)}
+  .hud{position:fixed;inset:0;pointer-events:none;z-index:10}
+  .bar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:16px clamp(16px,4vw,32px);background:linear-gradient(180deg,rgba(5,6,10,.8),transparent)}
+  .brand{display:flex;align-items:center;gap:11px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:.95rem;color:var(--ink);text-decoration:none;pointer-events:auto}
+  .brand .orb{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 34% 32%,#7fe6cf,#197a66 62%,#0c2b23);box-shadow:0 0 14px rgba(63,208,180,.5)}
+  .shop{pointer-events:auto;font-weight:600;font-size:.8rem;letter-spacing:.02em;text-decoration:none;color:var(--gold-ink);background:var(--gold);padding:9px 18px;border-radius:100px;transition:transform .14s,box-shadow .14s}
+  .shop:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(230,192,78,.3)}
+  .roomtag{position:absolute;left:50%;top:70px;transform:translateX(-50%);text-align:center;opacity:0;transition:opacity .7s}
+  .roomtag .n{font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  .roomtag .t{font-family:'Unbounded',sans-serif;font-weight:600;font-size:1.05rem;margin-top:4px;color:var(--ink)}
+  .hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:.78rem;letter-spacing:.04em;color:var(--ink-soft);background:rgba(5,6,10,.5);padding:8px 16px;border-radius:100px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.08);white-space:nowrap;transition:opacity .5s}
+  .hint b{color:var(--gold);font-weight:600}
+  .progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.06)}
+  .progress .fill{height:100%;width:0;background:linear-gradient(90deg,var(--emerald),var(--gold))}
+  .title-card{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center;transition:opacity .6s;max-width:90vw}
+  .title-card .ey{font-size:.74rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+  .title-card h1{font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(2rem,6vw,4.4rem);line-height:1;margin-top:14px;text-shadow:0 4px 40px rgba(0,0,0,.85)}
+  .title-card p{margin-top:16px;color:var(--ink-soft);font-size:clamp(.95rem,1.5vw,1.1rem)}
+  .lb{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(4,5,8,.92);backdrop-filter:blur(10px);padding:4vh 4vw;pointer-events:auto;opacity:0;transition:opacity .28s}
+  .lb.open{display:flex;opacity:1}
+  .lb .card{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(18px,3vw,40px);max-width:min(940px,94vw);max-height:92vh;background:linear-gradient(180deg,#0d120e,#080a08);border:1px solid rgba(230,192,78,.22);border-radius:18px;padding:clamp(18px,2.4vw,30px);box-shadow:0 40px 120px rgba(0,0,0,.75);overflow:auto}
+  .lb-media{display:flex;align-items:center;justify-content:center}
+  .lb-media img{max-height:74vh;max-width:100%;border-radius:4px;box-shadow:0 24px 60px rgba(0,0,0,.6);filter:drop-shadow(0 0 1px rgba(0,0,0,.4))}
+  .lb-info{display:flex;flex-direction:column;min-width:0}
+  .lb-ey{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold)}
+  .lb-info h3{font-family:'Unbounded',sans-serif;font-weight:700;font-size:clamp(1.2rem,2.4vw,1.7rem);line-height:1.05;margin-top:8px}
+  .lb-sec{margin-top:20px}
+  .lb-lbl{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+  .lb-buyrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .lb-price{font-family:'Unbounded',sans-serif;font-weight:700;font-size:1.35rem;color:var(--ink)}
+  .lb-note{margin-top:9px;font-size:.74rem;color:var(--ink-soft)}
+  .lb-div{height:1px;background:linear-gradient(90deg,transparent,rgba(230,192,78,.28),transparent);margin:22px 0 2px}
+  .lb-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .chip{font-family:'Sora';font-size:.78rem;font-weight:500;color:var(--ink);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);padding:8px 15px;border-radius:100px;cursor:pointer;transition:.14s;display:flex;align-items:center;gap:7px}
+  .chip .dot{width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);flex:none}
+  .chip[aria-checked=true]{border-color:var(--gold);background:rgba(230,192,78,.12);color:var(--ink)}
+  .chip[aria-checked=true] .dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 2px rgba(230,192,78,.2)}
+  .lb-sizes{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px}
+  .size{text-align:left;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:11px 13px;cursor:pointer;transition:.14s;display:flex;flex-direction:column;gap:3px}
+  .size:hover{border-color:rgba(230,192,78,.5)}
+  .size[aria-checked=true]{border-color:var(--gold);background:rgba(230,192,78,.1)}
+  .size .sz{display:flex;align-items:center;gap:8px;font-weight:600;font-size:.86rem;color:var(--ink)}
+  .size .sz .dot{width:12px;height:12px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);flex:none}
+  .size[aria-checked=true] .dot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 2px rgba(230,192,78,.2)}
+  .size .pr{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--ink-soft)}
+  .lb a.buy,.lb a.etsy,.lb button.close{font-family:'Sora';font-weight:600;font-size:.86rem;border:none;cursor:pointer;padding:13px 22px;border-radius:100px;text-decoration:none;text-align:center;transition:transform .14s,box-shadow .14s}
+  .lb a.buy{background:var(--gold);color:var(--gold-ink)}
+  .lb a.buy:hover,.lb a.etsy:hover{transform:translateY(-1px);box-shadow:0 10px 26px rgba(0,0,0,.4)}
+  .lb a.etsy{display:block;margin-top:14px;background:#e6743c;color:#1a0d06}
+  .lb button.close{margin-top:16px;background:transparent;border:1px solid rgba(255,255,255,.22);color:var(--ink-soft);width:100%}
+  @media (max-width:720px){ .lb .card{grid-template-columns:1fr;gap:16px} .lb-media img{max-height:38vh} }
+  #loader{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--ground);transition:opacity .6s}
+  #loader .ring{width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.12);border-top-color:var(--gold);margin:0 auto 16px;animation:spin 1s linear infinite}
+  #loader p{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);text-align:center}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){#loader .ring{animation:none}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="vign"></div>
+<div class="hud">
+  <div class="bar">
+    <a class="brand" href="https://mrlooksoogood.github.io/blackfuturevision/"><span class="orb"></span>Black Future Vision</a>
+    <a class="shop" href="https://mrlooksoogood.github.io/blackfuturevision/shop.html">Shop the collection</a>
+  </div>
+  <div class="roomtag" id="roomtag"><div class="n" id="rtN">Room</div><div class="t" id="rtT">Name</div></div>
+  <div class="title-card" id="titleCard">
+    <div class="ey">Black Future Vision</div>
+    <h1>Enter the gallery.</h1>
+    <p>A collection suspended in space.</p>
+  </div>
+  <div class="hint" id="hint"><b>Scroll</b> to walk &nbsp;·&nbsp; <b>drag</b> to look &nbsp;·&nbsp; <b>click</b> a piece</div>
+  <div class="progress"><div class="fill" id="pfill"></div></div>
+</div>
+<div class="lb" id="lb"><div class="card">
+  <div class="lb-media"><img id="lbImg" src="" alt=""></div>
+  <div class="lb-info">
+    <div class="lb-ey">Black Future Vision</div>
+    <h3 id="lbName">Black Future Vision</h3>
+    <div class="lb-sec">
+      <div class="lb-lbl">Digital download</div>
+      <div class="lb-buyrow"><span class="lb-price" id="lbDigPrice">$9.99</span>
+        <a class="buy" id="lbBuyDigital" href="#" target="_blank" rel="noopener">Buy digital</a></div>
+      <div class="lb-note">Instant high-resolution download — yours to print at home.</div>
+    </div>
+    <div class="lb-div"></div>
+    <div class="lb-sec">
+      <div class="lb-lbl">Order a framed print</div>
+      <div class="lb-chips" id="lbFrames"></div>
+      <div class="lb-sizes" id="lbSizes"></div>
+      <a class="etsy" id="lbBuyFramed" href="#" target="_blank" rel="noopener">Order framed on Etsy →</a>
+      <div class="lb-note">Museum-quality framed prints, made to order &amp; shipped via Etsy.</div>
+    </div>
+    <button class="close" id="lbClose">Keep walking</button>
+  </div>
+</div></div>
+<div id="loader"><div><div class="ring"></div><p>Entering the gallery</p></div></div>
+
+<script type="importmap">{"imports":{"three":"./assets/lib/three.module.min.js"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from './assets/lib/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from './assets/lib/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from './assets/lib/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from './assets/lib/jsm/postprocessing/OutputPass.js';
+const TRIM=0xe6c04e, EMERALD=0x3fd0b4, SHOP='https://mrlooksoogood.github.io/blackfuturevision/shop.html';
+const IS_MOBILE = matchMedia('(max-width:768px)').matches || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+const CLASSIC = new URLSearchParams(location.search).has('classic');  // ?classic=1 -> test the green halls in the bright classical treatment
+const H=6, T=0.3, EY=2.5;
+
+const app=document.getElementById('app');
+const renderer=new THREE.WebGLRenderer({antialias:!IS_MOBILE,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio, IS_MOBILE?1.5:2)); renderer.setSize(innerWidth,innerHeight);
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.12; renderer.outputColorSpace=THREE.SRGBColorSpace;
+app.appendChild(renderer.domElement);
+const scene=new THREE.Scene(); scene.fog=new THREE.FogExp2(CLASSIC?0xd9d3c5:0x05060a, CLASSIC?0.006:0.010);
+const camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,0.1,600);
+
+// ===== POST: cinematic bloom (premium glow on lights, portal, cosmic art). Safe fallback if it can't init.
+let composer=null, bloomPass=null;
+try{
+  composer=new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene,camera));
+  bloomPass=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), IS_MOBILE?0.55:0.82, 0.72, 0.82); // strength, radius, threshold
+  composer.addPass(bloomPass);
+  composer.addPass(new OutputPass());
+}catch(e){ composer=null; console.warn('[gallery] bloom unavailable, direct render:', e.message); }
+
+// env map for reflections
+{ const c=document.createElement('canvas'); c.width=256;c.height=128; const g=c.getContext('2d');
+  const grd=g.createLinearGradient(0,0,0,128); grd.addColorStop(0,'#24304a');grd.addColorStop(.5,'#0c1622');grd.addColorStop(1,'#05060a');
+  g.fillStyle=grd; g.fillRect(0,0,256,128); g.fillStyle='rgba(255,228,166,.4)'; g.fillRect(0,54,256,5);
+  const tex=new THREE.CanvasTexture(c); tex.mapping=THREE.EquirectangularReflectionMapping;
+  const pm=new THREE.PMREMGenerator(renderer); scene.environment=pm.fromEquirectangular(tex).texture; tex.dispose(); }
+
+// ===== SPACE: starfield sphere + distant planet =====
+function spaceTex(){ const c=document.createElement('canvas'); c.width=2048;c.height=1024; const g=c.getContext('2d');
+  g.fillStyle='#04050a'; g.fillRect(0,0,2048,1024);
+  // faint nebula patches
+  for(let i=0;i<26;i++){ const x=Math.random()*2048,y=Math.random()*1024,r=120+Math.random()*260;
+    const col=['#123', '#1b2a3a','#12303a','#241830'][i%4]; const rg=g.createRadialGradient(x,y,0,x,y,r);
+    rg.addColorStop(0,col); rg.addColorStop(1,'rgba(4,5,10,0)'); g.globalAlpha=.5; g.fillStyle=rg; g.beginPath(); g.arc(x,y,r,0,7); g.fill(); }
+  g.globalAlpha=1;
+  for(let i=0;i<2600;i++){ const x=Math.random()*2048,y=Math.random()*1024,s=Math.random(); const b=150+s*105|0;
+    g.fillStyle=`rgba(${b},${b},${(b*1.02)|0},${.3+s*.7})`; g.fillRect(x,y,s>.96?2:1,s>.96?2:1); }
+  const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
+const starSphere=new THREE.Mesh(new THREE.SphereGeometry(320,40,24), new THREE.MeshBasicMaterial({map:spaceTex(),side:THREE.BackSide,fog:false})); scene.add(starSphere);
+function planetTex(){ const c=document.createElement('canvas'); c.width=1024;c.height=512; const g=c.getContext('2d');
+  const grd=g.createLinearGradient(0,0,0,512); grd.addColorStop(0,'#0a3a30');grd.addColorStop(.4,'#155e4c');grd.addColorStop(.6,'#3fd0b4');grd.addColorStop(1,'#0c2a24');
+  g.fillStyle=grd; g.fillRect(0,0,1024,512);
+  for(let i=0;i<14;i++){ g.globalAlpha=.15; g.fillStyle=i%2?'#7fe6cf':'#0a2a22'; g.fillRect(0,Math.random()*512,1024,4+Math.random()*22); }
+  g.globalAlpha=1; const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; return t; }
+const planet=new THREE.Mesh(new THREE.SphereGeometry(20,48,48), new THREE.MeshStandardMaterial({map:planetTex(),emissive:0x0a2a24,emissiveIntensity:.35,roughness:.95,metalness:0,fog:false}));
+planet.position.set(-70,16,70); scene.add(planet);
+const sun=new THREE.DirectionalLight(0xfff0e0,1.1); sun.position.set(90,50,80); scene.add(sun);
+
+// ===== materials =====
+const floorMat=new THREE.MeshStandardMaterial({color:0x0c140f,roughness:.16,metalness:.7,envMapIntensity:1.0});
+const ceilMat =new THREE.MeshStandardMaterial({color:0x0b100d,roughness:.95});
+const goldMat =new THREE.MeshStandardMaterial({color:0xb58a34,roughness:.42,metalness:1,envMapIntensity:.7});
+const glassMat=new THREE.MeshPhysicalMaterial({color:0x8fc4c2,metalness:0,roughness:.06,transparent:true,opacity:.12,ior:1.4,envMapIntensity:1.6,side:THREE.DoubleSide,depthWrite:false});
+const glassFloorMat=new THREE.MeshPhysicalMaterial({color:0x9fd0cc,metalness:.2,roughness:.05,transparent:true,opacity:.18,envMapIntensity:2.0,side:THREE.DoubleSide,depthWrite:false});
+const world=new THREE.Group(); scene.add(world);
+const loader=new THREE.TextureLoader(); const clickable=[];
+const box=(w,h,d,mat,x,y,z)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);world.add(m);return m;};
+const wallMat=c=>new THREE.MeshStandardMaterial({color:c,roughness:.92,metalness:.04,envMapIntensity:.4});
+function concreteTex(){ const c=document.createElement('canvas'); c.width=c.height=512; const g=c.getContext('2d');
+  g.fillStyle='#3a3a37'; g.fillRect(0,0,512,512);
+  for(let i=0;i<9000;i++){ const v=200+Math.random()*40|0; g.fillStyle=`rgba(${v},${v},${v-6},${Math.random()*.06})`; g.fillRect(Math.random()*512,Math.random()*512,2,2); }
+  for(let i=0;i<40;i++){ g.strokeStyle=`rgba(20,20,18,${Math.random()*.25})`; g.lineWidth=Math.random()*1.5; g.beginPath(); let x=Math.random()*512,y=Math.random()*512; g.moveTo(x,y); for(let j=0;j<4;j++){x+=(Math.random()-.5)*90;y+=(Math.random()-.5)*90;g.lineTo(x,y);} g.stroke(); }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return t; }
+function brickTex(){ const c=document.createElement('canvas'); c.width=c.height=512; const g=c.getContext('2d');
+  g.fillStyle='#2a1512'; g.fillRect(0,0,512,512); const bw=64,bh=26;
+  for(let r=0;r<512/bh;r++){ const off=(r%2)*bw/2; for(let cx=-1;cx<512/bw+1;cx++){ const x=cx*bw+off,y=r*bh; const v=70+Math.random()*40|0; g.fillStyle=`rgb(${v},${(v*.42)|0},${(v*.34)|0})`; g.fillRect(x+2,y+2,bw-4,bh-4);} }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return t; }
+const cTex=concreteTex();
+const concreteWall=new THREE.MeshStandardMaterial({map:cTex,color:0xbdbdb8,roughness:.96,metalness:0,envMapIntensity:.25});
+const concreteFloor=new THREE.MeshStandardMaterial({map:cTex.clone(),color:0x9a9a95,roughness:.72,metalness:.12,envMapIntensity:.4}); concreteFloor.map.repeat.set(6,6);
+const brickMat=new THREE.MeshStandardMaterial({map:brickTex(),roughness:.92,metalness:0,envMapIntensity:.2}); brickMat.map.repeat.set(4,2);
+
+function wallZ(x,z0,z1,mat){ box(T,H,Math.abs(z1-z0),mat,x,H/2,(z0+z1)/2); }
+function wallX(z,x0,x1,mat){ box(Math.abs(x1-x0),H,T,mat,(x0+x1)/2,H/2,z); }
+function slab(x0,x1,z0,z1,mat,y){ box(Math.abs(x1-x0)+.02,.35,Math.abs(z1-z0)+.02,mat,(x0+x1)/2,y,(z0+z1)/2); }
+
+// ===== frame images (keyed, cover-fit) =====
+// composite (art baked into frame) aspect = frame outer W/H
+const FRAMES={ ornate:{oar:0.684}, deco:{oar:0.684}, chrome:{oar:0.657} };
+
+// premium engraved nameplate
+function nameplate(name, frameW){
+  const W=820,Hc=140, c=document.createElement('canvas'); c.width=W;c.height=Hc; const g=c.getContext('2d');
+  const rr=(x,y,w,h,r)=>{g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();};
+  // brushed brass plaque
+  const grad=g.createLinearGradient(0,0,0,Hc); grad.addColorStop(0,'#f2dc9c');grad.addColorStop(.34,'#d8b45a');grad.addColorStop(.5,'#b28a2c');grad.addColorStop(.66,'#c99f42');grad.addColorStop(1,'#7f6018');
+  rr(5,5,W-10,Hc-10,12); g.fillStyle=grad; g.fill();
+  g.save(); rr(5,5,W-10,Hc-10,12); g.clip();
+  for(let y=6;y<Hc;y+=2){ g.strokeStyle=`rgba(255,255,255,${0.02+Math.random()*0.04})`; g.beginPath(); g.moveTo(0,y+Math.random()); g.lineTo(W,y); g.stroke(); }
+  g.restore();
+  g.lineWidth=2; g.strokeStyle='rgba(255,248,214,.75)'; rr(6,6,W-12,Hc-12,11); g.stroke();
+  g.lineWidth=3; g.strokeStyle='rgba(74,50,8,.55)'; rr(15,15,W-30,Hc-30,7); g.stroke();
+  // engraved dark text (double-pass emboss)
+  const t=name.toUpperCase(); let fs=54; g.font=`600 ${fs}px "Unbounded", Georgia, serif`;
+  while(g.measureText(t).width>W-96 && fs>22){ fs-=2; g.font=`600 ${fs}px "Unbounded", Georgia, serif`; }
+  g.textAlign='center'; g.textBaseline='middle';
+  g.fillStyle='rgba(255,244,206,.55)'; g.fillText(t, W/2, Hc/2+2);
+  g.fillStyle='#2a1c04'; g.fillText(t, W/2, Hc/2);
+  const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8;
+  const w=Math.min(frameW*0.78,2.2), h=w*Hc/W;
+  const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshStandardMaterial({map:tex,transparent:true,roughness:.34,metalness:.9,envMapIntensity:.95,emissive:0xffffff,emissiveMap:tex,emissiveIntensity:.12}));
+  m.userData={h}; return m;
+}
+
+// place a framed artwork. L = target LONG edge; the piece sizes to its own image aspect (9-slice frames).
+function hang(file,name,x,z,yaw,L,opts={}){
+  const frame=opts.frame||'ornate';
+  const grp=new THREE.Group(); grp.position.set(x,(opts.y??EY),z); grp.rotation.y=yaw; grp.rotation.z=opts.tilt||0; world.add(grp);
+  let piece;
+  const tex=loader.load(`./assets/framed/${file}__${frame}.webp`, t=>{
+    if(!piece) return; const ar=t.image.width/t.image.height;
+    const pw=ar>=1?L:L*ar, ph=ar>=1?L/ar:L; piece.scale.set(pw,ph,1);
+    const hoodW=Math.min(pw*0.5,2.6), ly=ph/2+0.26;
+    const hood=new THREE.Mesh(new THREE.BoxGeometry(hoodW,0.1,0.24),goldMat); hood.position.set(0,ly,0.34); hood.rotation.x=-0.5; grp.add(hood);
+    const bulb=new THREE.Mesh(new THREE.BoxGeometry(hoodW*0.82,0.05,0.12),new THREE.MeshStandardMaterial({color:0x3a3226,emissive:0xffe4ad,emissiveIntensity:0.5})); bulb.position.set(0,ly-0.03,0.44); bulb.rotation.x=-0.5; grp.add(bulb);
+    const aL=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.36,0.05),goldMat); aL.position.set(-hoodW/2+0.05,ly-0.16,0.18); aL.rotation.x=0.5; grp.add(aL); const aR=aL.clone(); aR.position.x=hoodW/2-0.05; grp.add(aR);
+    if(opts.spot){ const ls=new THREE.SpotLight(0xffe9c8,16,9,Math.PI/4,.5,1.3); ls.position.set(0,ly-0.1,0.55); ls.target.position.set(0,0,0.05); grp.add(ls); grp.add(ls.target); }
+    if(name){ const np=nameplate(name,pw); np.position.set(0,-ph/2-0.03-np.userData.h/2,0.06); grp.add(np); }
+    if(opts.floating){ const postH=Math.max(EY-ph/2,0.3); const post=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.07,postH,12),goldMat);
+      post.position.set(0,-(ph/2)-postH/2,-0.04); grp.add(post);
+      grp.add(new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.3,0.08,20),goldMat).translateY(-(ph/2)-postH+0.04)); }
+  });
+  tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8;
+  piece=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshStandardMaterial({map:tex,transparent:true,alphaTest:.03,emissive:0xffffff,emissiveMap:tex,emissiveIntensity:(opts.emissive??.55),roughness:.6,metalness:.15,envMapIntensity:.35}));
+  const price=(file==='dark-matter-protocall')?29.99:9.99;
+  grp.add(piece); piece.userData={name:name||'Black Future Vision', url:opts.url||SHOP, slug:file, frame, img:`./assets/framed/${file}__${frame}.webp`, price}; clickable.push(piece);
+}
+function porthole(x,y,z,yaw,r){ const c=document.createElement('canvas'); c.width=c.height=256; const g=c.getContext('2d');
+  const rad=g.createRadialGradient(128,112,8,128,128,128); rad.addColorStop(0,'#c9fdee');rad.addColorStop(.34,'#3fd0b4');rad.addColorStop(.7,'#11745e');rad.addColorStop(1,'#03120d');
+  g.fillStyle=rad; g.beginPath(); g.arc(128,128,128,0,7); g.fill();
+  const tex=new THREE.CanvasTexture(c);
+  const disc=new THREE.Mesh(new THREE.CircleGeometry(r,48),new THREE.MeshBasicMaterial({map:tex})); disc.position.set(x,y,z); disc.rotation.y=yaw; world.add(disc);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(r+.08,.08,16,48),goldMat); ring.position.set(x,y,z); ring.rotation.y=yaw; world.add(ring);
+  const pl=new THREE.PointLight(EMERALD,14,20,2); const n=new THREE.Vector3(Math.sin(yaw),0,Math.cos(yaw)); pl.position.set(x,y,z).addScaledVector(n,1.5); scene.add(pl); }
+
+// ===== FLOOR PLAN: GREEN museum backbone (general) stitching specialty rooms =====
+const yW=Math.PI/2, yE=-Math.PI/2, yN=0, yS=Math.PI, BR='./assets/brand/';
+const greenWall=CLASSIC?new THREE.MeshStandardMaterial({color:0xcfc6b0,roughness:.98,metalness:0,envMapIntensity:.15}):wallMat(0x25392d), portalG=wallMat(0x17231b);
+const hallFloor=CLASSIC?new THREE.MeshStandardMaterial({color:0x7a5836,roughness:.55,metalness:.05,envMapIntensity:.2}):floorMat;
+const hallCeil =CLASSIC?new THREE.MeshStandardMaterial({color:0xe4dfd2,roughness:.96}):ceilMat;
+const GW=6, Zent0=14, Zent1=4, Za1=-80, Zc1=-104, Zb1=-184, Zd1=-214;
+function doorX(z,x0,x1,mat,dw=3.7,dh=4.2,glow=0x3fd0b4){ const s=(x1-x0-dw)/2;
+  wallX(z,x0,x0+s,mat); wallX(z,x1-s,x1,mat); box(dw,H-dh,T,mat,(x0+x1)/2,dh+(H-dh)/2,z);
+  box(dw+.1,0.1,0.35,new THREE.MeshStandardMaterial({color:0x0e1512,emissive:glow,emissiveIntensity:1.1}),(x0+x1)/2,0.05,z); }
+// floors + ceilings per zone (cube gets a glass ceiling; dark room a concrete floor)
+slab(-GW,GW,Zent0,Zent1,hallFloor,-0.18); slab(-GW,GW,Zent0,Zent1,hallCeil,H);
+slab(-GW,GW,Zent1,Za1,hallFloor,-0.18);   slab(-GW,GW,Zent1,Za1,hallCeil,H);
+// CUBE = suspended GLASS TUBE bridge across space: a translucent tube you walk through, LED rings, open void outside
+{ const Lz=Math.abs(Zc1-Za1), Cz=(Za1+Zc1)/2;
+  slab(-2.4,2.4,Za1,Zc1,glassFloorMat,-0.18);                                  // glass walkway floor
+  const tubeMat=new THREE.MeshPhysicalMaterial({color:0x9fd0cc,metalness:0,roughness:.05,transparent:true,opacity:.09,ior:1.4,envMapIntensity:1.8,side:THREE.DoubleSide,depthWrite:false});
+  const tube=new THREE.Mesh(new THREE.CylinderGeometry(3.7,3.7,Lz,44,1,true),tubeMat); tube.rotation.x=Math.PI/2; tube.position.set(0,1.35,Cz); world.add(tube);
+  const ledMat=new THREE.MeshStandardMaterial({color:0x08221d,emissive:EMERALD,emissiveIntensity:1.5,roughness:.3});
+  box(0.14,0.16,Lz,ledMat,-2.5,-0.04,Cz); box(0.14,0.16,Lz,ledMat,2.5,-0.04,Cz);          // glowing floor rails
+  const ringMat=new THREE.MeshStandardMaterial({color:0x0a2a24,emissive:EMERALD,emissiveIntensity:1.4,roughness:.3});
+  for(let i=0;i<=6;i++){ const z=Za1-(i/6)*Lz; const ring=new THREE.Mesh(new THREE.TorusGeometry(3.7,0.09,12,44),ringMat); ring.rotation.y=Math.PI/2; ring.position.set(0,1.35,z); world.add(ring);
+    const pl=new THREE.PointLight(EMERALD,3.5,15,2); pl.position.set(0,1.35,z); scene.add(pl); } }
+slab(-GW,GW,Zc1,Zb1,hallFloor,-0.18);     slab(-GW,GW,Zc1,Zb1,hallCeil,H);
+slab(-GW,GW,Zb1,Zd1,concreteFloor,-0.18);slab(-GW,GW,Zb1,Zd1,ceilMat,H);
+// side walls
+wallZ(-GW,Zent0,Zent1,greenWall); wallZ(GW,Zent0,Zent1,greenWall);
+wallZ(-GW,Zent1,Za1,greenWall);   wallZ(GW,Zent1,Za1,greenWall);
+// (cube side walls removed — the glass TUBE encloses the walkway now)
+wallZ(-GW,Zc1,Zb1,greenWall);     wallZ(GW,Zc1,Zb1,greenWall);
+wallZ(-GW,Zb1,Zd1,concreteWall);  wallZ(GW,Zb1,Zd1,concreteWall);
+// boundary/end walls
+wallX(Zent0,-GW,GW,greenWall);
+doorX(Zent1,-GW,GW,greenWall); doorX(Za1,-GW,GW,portalG); doorX(Zc1,-GW,GW,portalG); doorX(Zb1,-GW,GW,concreteWall);
+// immortals back wall = brick with a tall ARCHWAY into the GRAND SALON beyond
+{ const dw=3.6, s=(2*GW-dw)/2;
+  wallX(Zd1,-GW,-GW+s,concreteWall); wallX(Zd1,GW-s,GW,concreteWall);       // jambs
+  box(dw,H-4.5,T,concreteWall,0,4.5+(H-4.5)/2,Zd1);                          // lintel over the door
+  const bp=(x0,x1)=>{const w=x1-x0;const b=new THREE.Mesh(new THREE.PlaneGeometry(w,H),brickMat);b.position.set((x0+x1)/2,H/2,Zd1+.1);world.add(b);};
+  bp(-GW+0.1,-dw/2); bp(dw/2,GW-0.1);
+  box(dw+.2,0.1,0.32,new THREE.MeshStandardMaterial({color:0x0e1512,emissive:EMERALD,emissiveIntensity:1.0}),0,0.05,Zd1); }
+
+// ===== LIGHTING =====
+scene.add(new THREE.HemisphereLight(0x3a4d40,0x0c110d,.6));
+scene.add(new THREE.AmbientLight(0x2e3a30,.5));
+if(CLASSIC){ scene.add(new THREE.HemisphereLight(0xf2eee2,0x9a9384,1.15)); scene.add(new THREE.AmbientLight(0xffffff,.28)); } // bright museum fill for the classical-halls test
+function ceil(x,z,i,warm){ const col=warm?0xffe6b0:0xdfe6ff; const p=new THREE.PointLight(col,i,22,1.6); p.position.set(x,H-.4,z); scene.add(p);
+  box(warm?0.85:1.0,.05,warm?0.85:0.45,new THREE.MeshStandardMaterial({color:warm?0xfff2cf:0xf2f5ff,emissive:warm?0xffe4a6:0xcdd8ff,emissiveIntensity:.8,roughness:.5}),x,H-.12,z); }
+[10,2,-6,-14,-22,-30,-38,-46,-54,-62,-70,-78].forEach(z=>ceil(0,z,18,true));   // entrance + long hall A
+[-108,-118,-128,-138,-148,-158,-168,-178].forEach(z=>ceil(0,z,18,true));       // long hall B
+const gfill=new THREE.PointLight(0xbfe0ff,9,44,2); gfill.position.set(0,4,-92); scene.add(gfill);   // cube (no ceiling fixtures)
+[-190,-198,-206].forEach(z=>ceil(0,z,20,false));               // dark room cool
+// (immortals terminal spot removed — The Ruler moved to the Grand Salon; salon light spills back through the archway)
+
+// ===== ART =====
+// COSMIC — glass cube, floating on posts, DECO frame, spotlit
+const CF={frame:'deco',dir:BR,floating:true,spot:true};
+const cosmic=[['dark-matter-protocall','Dark Matter Protocol','1441980236'],['god-body','God Body','1456216511'],['celf-centered','Celf Centered','1456088797'],['cosmic-consort','Cosmic Consort','1441889084'],['mo-gadgets','Mo Gadgets','1441870334'],['primordial-perception','Primordial Perception','1493986173'],['thought-nebula','Thought Nebula',''],['star-crossed','Star Crossed','']];
+const cosZ=[-85,-91,-97,-101];
+cosmic.forEach((c,i)=>{ const side=i<4?-1:1; hang(c[0],c[1], side*4.6, cosZ[i%4], side<0?yW:yE, 3.0, {...CF, url:c[2]?`https://www.etsy.com/listing/${c[2]}/`:SHOP}); });
+porthole(0,4.4,Zc1+.12,yN,.55);
+// IMMORTALS — dark brick room, ORNATE frame
+const IO={frame:'ornate'};
+[['p17','The Martian'],['p00','Streetlight Prophet'],['p01','The Marathon'],['p05','Rose From Concrete']].forEach((m,i)=>hang(m[0],m[1],-5.8,-189-i*6,yW,3.4,IO));
+[['p03','The Woo'],['p06','The West Coast Don'],['p07','The Blueprint'],['p09','The Young Prodigy'],['p10','Bulletproof']].forEach((m,i)=>hang(m[0],m[1],5.8,-188-i*5,yE,3.4,IO));
+hang('p13','The Chef & The Ghost',-3.7,Zd1+.4,yN,3.2,IO); hang('p14','The Dreamer',3.9,Zd1+.4,yN,3.2,IO);
+// ===== GRAND SALON: BRIGHT CLASSICAL museum hall (Uffizi/National Gallery) — light walls, parquet floor,
+// monumental gold-framed works dwarfing the viewer, track lighting, one deep-blue accent wall =====
+const HS=26, Zs0=Zd1, Zs1=-292, SW=18, SCz=(Zs0+Zs1)/2;
+const salonWall=new THREE.MeshStandardMaterial({color:0xcfc6b0,roughness:.98,metalness:0,envMapIntensity:.15}); // warm gallery greige
+const blueWall =new THREE.MeshStandardMaterial({color:0x1d3f63,roughness:.95,metalness:0,envMapIntensity:.15}); // deep accent wall
+const trimMat  =new THREE.MeshStandardMaterial({color:0xe4ddca,roughness:.9,metalness:.02,envMapIntensity:.15});
+const lightCeil=new THREE.MeshStandardMaterial({color:0xe4dfd2,roughness:.96});
+function parquetTex(){ const c=document.createElement('canvas'); c.width=c.height=512; const g=c.getContext('2d');
+  const S=64; for(let by=0;by<512;by+=S)for(let bx=0;bx<512;bx+=S){ const k=((bx/S)+(by/S));
+    g.fillStyle=['#6f4c2b','#79552f','#634427'][k%3]; g.fillRect(bx,by,S,S);
+    g.strokeStyle='rgba(40,24,10,.4)'; g.lineWidth=1;
+    for(let i=1;i<8;i++){ g.beginPath(); if(k%2===0){g.moveTo(bx,by+i*S/8);g.lineTo(bx+S,by+i*S/8);} else {g.moveTo(bx+i*S/8,by);g.lineTo(bx+i*S/8,by+S);} g.stroke(); }
+    g.strokeStyle='rgba(20,12,4,.55)'; g.strokeRect(bx+.5,by+.5,S-1,S-1); }
+  const t=new THREE.CanvasTexture(c); t.wrapS=t.wrapT=THREE.RepeatWrapping; t.colorSpace=THREE.SRGBColorSpace; return t; }
+const parquet=new THREE.MeshStandardMaterial({map:parquetTex(),roughness:.5,metalness:.05,envMapIntensity:.2}); parquet.map.repeat.set(9,18);
+const tallWallX=(x0,x1,z,mat)=>box(Math.abs(x1-x0),HS,T,mat,(x0+x1)/2,HS/2,z);
+const tallWallZ=(x,z0,z1,mat)=>box(T,HS,Math.abs(z1-z0),mat,x,HS/2,(z0+z1)/2);
+slab(-SW,SW,Zs0,Zs1,parquet,-0.18); slab(-SW,SW,Zs0,Zs1,lightCeil,HS);
+tallWallX(-SW,-GW,Zs0,salonWall); tallWallX(GW,SW,Zs0,salonWall);   // front flanks beside archway
+tallWallX(-SW,SW,Zs1,blueWall);                                      // far wall = deep-blue accent (hero)
+tallWallZ(-SW,Zs0,Zs1,salonWall); tallWallZ(SW,Zs0,Zs1,salonWall);   // side walls (light)
+// classical base molding + cornice along the long walls (slim protrusion)
+[-SW+0.04,SW-0.04].forEach(x=>{ box(0.1,0.7,Math.abs(Zs1-Zs0),trimMat,x,0.35,SCz); box(0.1,0.5,Math.abs(Zs1-Zs0),trimMat,x,HS-1.1,SCz); });
+// pilasters (classical columns) — slim protrusion so wide frames clear them
+[-38,-56,-74].forEach(dz=>{ [-SW+0.06,SW-0.06].forEach(x=>{ box(0.32,HS-1.4,1.3,trimMat,x,(HS-1.4)/2,Zs0+dz);
+  box(0.6,0.4,1.7,trimMat,x,HS-1.4,Zs0+dz); box(0.6,0.4,1.7,trimMat,x,0.55,Zs0+dz); }); });
+// white NICHE surround on the blue wall behind the hero
+box(15.4,0.55,0.45,trimMat,0,22.2,Zs1+0.22); box(15.4,0.55,0.45,trimMat,0,0.7,Zs1+0.22);
+box(0.55,21.8,0.45,trimMat,-7.6,11.45,Zs1+0.22); box(0.55,21.8,0.45,trimMat,7.6,11.45,Zs1+0.22);
+// ceiling TRACK-LIGHT rails + spot fixtures
+const railMat=new THREE.MeshStandardMaterial({color:0x2b2b2b,roughness:.6,metalness:.4});
+[-9,9].forEach(x=>box(0.16,0.16,Math.abs(Zs1-Zs0)-6,railMat,x,HS-0.35,SCz));
+function trackSpot(x,z,tx,ty,tz,inten=6){ box(0.32,0.32,0.5,railMat,x,HS-0.55,z);
+  const s=new THREE.SpotLight(0xfff4e6,inten,66,Math.PI/7,.5,1.1); s.position.set(x,HS-0.7,z); s.target.position.set(tx,ty,tz); scene.add(s); scene.add(s.target); }
+// MUSEUM light — dimmed ~45% (was blowing out the art); soft even fill, art carries its own emissive
+scene.add(new THREE.HemisphereLight(0xf2eee2,0x8f8874,0.62));
+{ const f1=new THREE.PointLight(0xfff6ea,13,150,1.15); f1.position.set(0,HS-4,Zs0-22); scene.add(f1);
+  const f2=new THREE.PointLight(0xfff6ea,11,150,1.15); f2.position.set(0,HS-4,Zs1+26); scene.add(f2); }
+// Each wall = ONE intentional composition: a single big centered hero, or a coupled aligned mosaic.
+const lx=-SW+0.5, rx=SW-0.5, cLW=Zs0-47;   // pieces sit 0.5 off the wall (clear of trim); heroes centered in the pilaster bay
+// BLUE FAR WALL — The Ruler alone, monumental, centered in the niche (like the Botticelli ref)
+hang('p16','The Ruler',0,Zs1+0.6,yN,20.0,{frame:'ornate',y:11.0,url:SHOP,emissive:0.26});
+trackSpot(0,Zs1+16,0,11,Zs1);
+// RIGHT WALL — The Movement alone, wide monumental, centered in its bay
+hang('the-movement','The Movement',rx,cLW,yE,15.0,{frame:'ornate',dir:'assets/cat',y:11.0,url:SHOP,emissive:0.42});
+trackSpot(9,cLW,SW,11,cLW);
+// LEFT WALL — a COUPLED, TIGHT mosaic centered on the wall; PRIMORDIAL PERCEPTION (bestseller) as the anchor
+hang('primordial-perception','Primordial Perception',lx,cLW,yW,9.0,{frame:'ornate',dir:'assets/brand',y:11.0,url:'https://www.etsy.com/listing/1493986173/',emissive:0.42});
+const SALON_SLOTS=[];
+[[-7,14,4],[-7,8,4],[7,14,4],[7,8,4]].forEach(([ddz,y,L])=>SALON_SLOTS.push([lx,cLW+ddz,yW,L,y]));  // 4 companions tight around the anchor
+// FRONT flank walls beside the archway — one medium, centered on each flank, aligned height
+[[-12,10,8],[12,10,8]].forEach(([x,y,L])=>SALON_SLOTS.push([x,Zs0-0.5,yS,L,y]));
+trackSpot(-9,cLW,lx,11,cLW);   // wash the left-wall mosaic centrally
+// CATALOG — green halls, DECO frame, fetched from manifest (no per-piece spot)
+const catSlots=[]; [-3,-8,-13,-18,-23,-28,-33,-38,-43,-48,-53,-58,-63,-68,-73,-78].forEach(z=>{catSlots.push([-5.8,z,yW]);catSlots.push([5.8,z,yE]);});
+[-109,-114,-119,-124,-129,-134,-139,-144,-149,-154,-159,-164,-169,-174,-179].forEach(z=>{catSlots.push([-5.8,z,yW]);catSlots.push([5.8,z,yE]);});
+[11,7].forEach(z=>{catSlots.push([-5.8,z,yW]);catSlots.push([5.8,z,yE]);});   // entrance walls (fit the last few)
+const COSMICSET=new Set(cosmic.map(c=>c[0]));
+fetch('./assets/catalog_manifest.json').then(r=>r.json()).then(list=>{ const items=list.filter(m=>!COSMICSET.has(m.slug));
+  items.slice(0,catSlots.length).forEach((m,i)=>{ const s=catSlots[i]; hang(m.slug,m.title,s[0],s[1],s[2],3.0,{frame:'deco',dir:'assets/cat',url:m.url}); });
+  // GRAND SALON — showcase highlights at varied grand scale/height
+  SALON_SLOTS.forEach((s,i)=>{ const m=items[i%items.length]; hang(m.slug,m.title,s[0],s[1],s[2],s[3],{frame:'deco',dir:'assets/cat',url:m.url,y:s[4],tilt:s[5]||0}); });
+}).catch(()=>{});
+
+// ===== CAMERA PATH: guided tour through every zone =====
+const P=(x,z)=>new THREE.Vector3(x,1.6,z);
+const PY=(x,y,z)=>new THREE.Vector3(x,y,z);   // custom-height waypoint (bridge dips/climbs)
+const path=new THREE.CatmullRomCurve3([
+  P(0,12),P(0,4),
+  P(-3.2,-6),P(3.2,-16),P(-3.2,-26),P(3.2,-36),P(-3.2,-46),P(3.2,-56),P(-3.2,-66),P(3.2,-76),P(0,-80),
+  PY(0,1.3,-86),PY(4,0.85,-92),PY(-4,0.85,-98),PY(0,1.3,-104),   // descend onto the suspended glass tube, then rise
+  P(3.2,-112),P(-3.2,-122),P(3.2,-132),P(-3.2,-142),P(3.2,-152),P(-3.2,-162),P(3.2,-172),P(0,-184),
+  P(0,-190),P(4,-197),P(-3,-203),P(0,-207),
+  P(0,-214),P(0,-222),P(-9,-234),P(6,-247),P(-6,-258),P(8,-266),P(0,-272),P(0,-273)
+],false,'catmullrom',.5);
+const REGIONS=[
+  {t:'Entrance', n:'Black Future Vision', test:(x,z)=>z>4},
+  {t:'The Gallery', n:'The Collection', test:(x,z)=>z<=4&&z>-80},
+  {t:'Featured Room', n:'Cosmic Worlds', test:(x,z)=>z<=-80&&z>-104},
+  {t:'The Gallery', n:'The Collection', test:(x,z)=>z<=-104&&z>-184},
+  {t:'Featured Room', n:'Hip Hop Immortals', test:(x,z)=>z<=-184&&z>-214},
+  {t:'Grand Salon', n:'The Collection', test:(x,z)=>z<=-214},
+];
+
+// ===== INPUT =====
+let targetT=0,curT=0; const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+window.__setT=v=>{targetT=clamp(v,0,1);};
+window.__snapT=v=>{targetT=curT=clamp(v,0,1);};   // debug: jump camera instantly (headless capture)
+window.__diag=()=>clickable.map(m=>{const wp=new THREE.Vector3();m.getWorldPosition(wp);return {name:m.userData.name,x:+wp.x.toFixed(1),y:+wp.y.toFixed(1),z:+wp.z.toFixed(1),sx:+m.scale.x.toFixed(2),sy:+m.scale.y.toFixed(2),vis:m.visible,hasImg:!!(m.material.map&&m.material.map.image),ry:+m.parent.rotation.y.toFixed(2)};}).filter(o=>o.z<-210);
+addEventListener('wheel',e=>{targetT=clamp(targetT+e.deltaY*0.00036,0,1);hideHint();},{passive:true});
+addEventListener('keydown',e=>{ if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){targetT=clamp(targetT+.045,0,1);hideHint();} if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){targetT=clamp(targetT-.045,0,1);hideHint();} });
+let touchY=null; addEventListener('touchstart',e=>{touchY=e.touches[0].clientY;},{passive:true});
+addEventListener('touchmove',e=>{if(touchY!=null){const dy=touchY-e.touches[0].clientY;targetT=clamp(targetT+dy*0.0014,0,1);touchY=e.touches[0].clientY;hideHint();}},{passive:true});
+addEventListener('touchend',()=>{touchY=null;});
+let look={x:0,y:0},lookTarget={x:0,y:0},dragging=false,lastX=0,lastY=0,downX=0,downY=0;
+addEventListener('pointerdown',e=>{if(e.target.closest('.hud .bar')||e.target.closest('.lb'))return;dragging=true;lastX=e.clientX;lastY=e.clientY;downX=e.clientX;downY=e.clientY;});
+addEventListener('pointerup',()=>dragging=false);
+addEventListener('pointermove',e=>{ if(dragging){lookTarget.x=clamp(lookTarget.x+(e.clientX-lastX)*0.0026,-1.45,1.45);lookTarget.y=clamp(lookTarget.y-(e.clientY-lastY)*0.0016,-.6,.6);lastX=e.clientX;lastY=e.clientY;} else{lookTarget.x=(e.clientX/innerWidth-.5)*1.4;lookTarget.y=-(e.clientY/innerHeight-.5)*0.5;} });
+const ray=new THREE.Raycaster(),mouse=new THREE.Vector2();
+// click a piece -> open its product card (digital buy + framed options)
+addEventListener('click',e=>{ if(e.target.closest('.hud .bar')||e.target.closest('.lb'))return; if(Math.hypot(e.clientX-downX,e.clientY-downY)>6)return;
+  mouse.x=(e.clientX/innerWidth)*2-1; mouse.y=-(e.clientY/innerHeight)*2+1; ray.setFromCamera(mouse,camera);
+  const hit=ray.intersectObjects(clickable,false)[0]; if(!hit)return; openLB(hit.object.userData); });
+
+// ===== PRODUCT CARD (lightbox) =====
+// NOTE: framed sizes/prices are PLACEHOLDERS pending EF confirmation; digital buy is Payhip-ready
+// (routes to shop for now, flips to Payhip add-to-cart once product keys are wired).
+const FRAME_OPTS=[{k:'deco',label:'Deco'},{k:'ornate',label:'Ornate'},{k:'chrome',label:'Chrome'}];
+const SIZE_OPTS=[{s:'8×10″',p:39},{s:'12×16″',p:69},{s:'16×20″',p:99},{s:'18×24″',p:129},{s:'24×36″',p:189}];
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lbImg'),lbName=document.getElementById('lbName'),
+  lbDigPrice=document.getElementById('lbDigPrice'),lbBuyDigital=document.getElementById('lbBuyDigital'),
+  lbFrames=document.getElementById('lbFrames'),lbSizes=document.getElementById('lbSizes'),
+  lbBuyFramed=document.getElementById('lbBuyFramed'),lbClose=document.getElementById('lbClose');
+let lbData=null, selFrame='deco', selSize=1;
+FRAME_OPTS.forEach(f=>{ const c=document.createElement('button'); c.className='chip'; c.setAttribute('role','radio');
+  c.innerHTML=`<span class="dot"></span>${f.label}`; c._k=f.k; c.onclick=()=>{selFrame=f.k;syncChips();previewFrame();}; lbFrames.appendChild(c); });
+SIZE_OPTS.forEach((z,i)=>{ const b=document.createElement('button'); b.className='size'; b.setAttribute('role','radio');
+  b.innerHTML=`<span class="sz"><span class="dot"></span>${z.s}</span><span class="pr">$${z.p}</span>`; b.onclick=()=>{selSize=i;syncSizes();}; lbSizes.appendChild(b); });
+function syncChips(){ [...lbFrames.children].forEach(c=>c.setAttribute('aria-checked', c._k===selFrame)); }
+function syncSizes(){ [...lbSizes.children].forEach((b,i)=>b.setAttribute('aria-checked', i===selSize)); }
+function previewFrame(){ if(!lbData)return; lbImg.onerror=()=>{lbImg.onerror=null;lbImg.src=lbData.img;}; lbImg.src=`./assets/framed/${lbData.slug}__${selFrame}.png`; }
+function openLB(d){ lbData=d; selFrame=d.frame||'deco'; selSize=1; lbImg.onerror=null; lbImg.src=d.img; lbImg.alt=d.name;
+  lbName.textContent=d.name; lbDigPrice.textContent='$'+d.price.toFixed(2);
+  lbBuyDigital.href=d.digitalUrl||SHOP; lbBuyFramed.href=d.url||SHOP;
+  syncChips(); syncSizes(); lb.classList.add('open'); }
+function closeLB(){ lb.classList.remove('open'); }
+window.__lbTest=(i=0)=>{ const c=clickable[Math.min(i,clickable.length-1)]; if(c)openLB(c.userData); return clickable.length; };
+lbClose.onclick=closeLB; lb.addEventListener('click',e=>{ if(e.target===lb)closeLB(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape')closeLB(); });
+
+// ===== HUD =====
+const titleCard=document.getElementById('titleCard'),hint=document.getElementById('hint'),pfill=document.getElementById('pfill');
+const roomtag=document.getElementById('roomtag'),rtN=document.getElementById('rtN'),rtT=document.getElementById('rtT');
+let hintTimer=setTimeout(hideHint,6500); function hideHint(){hint.style.opacity=0;clearTimeout(hintTimer);}
+let curRoom=-1,tagTimer=null;
+function updateRoom(x,z){ let idx=0; for(let i=0;i<REGIONS.length;i++){ if(REGIONS[i].test(x,z)){idx=i;break;} }
+  if(idx!==curRoom){curRoom=idx;const r=REGIONS[idx];rtN.textContent=r.t;rtT.textContent=r.n;roomtag.style.opacity=1;clearTimeout(tagTimer);tagTimer=setTimeout(()=>roomtag.style.opacity=0,2600);} }
+THREE.DefaultLoadingManager.onLoad=()=>fade(); let faded=false; function fade(){if(faded)return;faded=true;const l=document.getElementById('loader');l.style.opacity=0;setTimeout(()=>l.remove(),650);} setTimeout(fade,6000);
+
+// ===== loop =====
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function frame(){ requestAnimationFrame(frame);
+  curT+=(targetT-curT)*0.055; look.x+=(lookTarget.x-look.x)*0.08; look.y+=(lookTarget.y-look.y)*0.08;
+  const t=clamp(curT,0,1),pos=path.getPointAt(t),tan=path.getTangentAt(t);
+  const bob=reduce?0:Math.sin(t*54)*0.026; camera.position.set(pos.x,pos.y+bob,pos.z);
+  const fwd=new THREE.Vector3(tan.x,0,tan.z); if(fwd.lengthSq()<1e-4)fwd.set(0,0,-1); fwd.normalize();
+  fwd.applyAxisAngle(new THREE.Vector3(0,1,0), -look.x);   // yaw: turn to face side pieces
+  const ahead=pos.clone().addScaledVector(fwd,5); ahead.y=pos.y+1.0+look.y*5;
+  if(t>0.86){const k=clamp((t-0.86)/0.14,0,1); ahead.lerp(new THREE.Vector3(0,11,-292),k*k*(3-2*k));} // finale: crane up at the MONUMENTAL Ruler towering on the far wall
+  camera.lookAt(ahead);
+  planet.rotation.y+=0.0008;
+  pfill.style.width=(t*100).toFixed(1)+'%'; titleCard.style.opacity=clamp(1-t*9,0,1); updateRoom(pos.x,pos.z);
+  if(composer) composer.render(); else renderer.render(scene,camera); }
+frame();
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);
+  if(composer)composer.setSize(innerWidth,innerHeight); if(bloomPass)bloomPass.setSize(innerWidth,innerHeight);});
+</script>
+</body>
+</html>
