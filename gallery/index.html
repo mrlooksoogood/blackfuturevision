@@ -142,7 +142,6 @@
       <a class="lb-alt" id="lbCart" href="../shop.html?cart=open" hidden>View cart and check out →</a>
       <div class="lb-note">Instant high-resolution download. Print it at home or at any print shop.</div>
       <a class="lb-alt" id="lbDetails" href="../shop.html">Full details, file size and print sizes →</a>
-      <a class="lb-alt" id="lbFramed" href="#" target="_blank" rel="noopener" style="border-top:none;padding-top:0">Prefer it framed? Framed &amp; canvas prints on Etsy →</a>
     </div>
     <div class="lb-sec" id="lbUnlisted" hidden>
       <div class="lb-note">This piece is not in the shop yet.</div>
@@ -597,7 +596,7 @@ fetch(STORE_API+'/bfv-checkout').then(r=>r.json()).then(st=>{ CART_ON=!!st.open|
 function openLB(d){ const url=LISTING[d.slug]||null, price=priceOf(d.slug); lbSlug=d.slug;
   $('lbImg').src=d.img; $('lbImg').alt=d.name; $('lbName').textContent=d.name; $('lbEy').textContent=d.col||'Black Future Vision';
   $('lbListed').hidden=!url; $('lbUnlisted').hidden=!!url;
-  $('lbDetails').href='../shop.html?piece='+encodeURIComponent(d.slug); $('lbFramed').href=url||'#'; $('lbFramed').hidden=!url;
+  $('lbDetails').href='../shop.html?piece='+encodeURIComponent(d.slug);
   if(url){ $('lbPrice').textContent='$'+price.toFixed(2); $('lbBuy').href=url; const inCart=CART_ON&&d.slug!=='starrgate-oracle'; $('lbBuy').hidden=inCart; $('lbAdd').hidden=!inCart; $('lbCart').hidden=true; if(inCart)syncCartButtons(); }
   keys.clear(); lb.classList.add('open'); }
 function closeLB(){ lb.classList.remove('open'); }

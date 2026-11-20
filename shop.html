@@ -200,7 +200,6 @@ a.add{white-space:nowrap}
       <div class="pd-links">
         <a id="pdGallery" href="#">See it hanging in the 3D gallery →</a>
         <a href="policies.html#licensing">What the license covers →</a>
-        <a id="pdFramed" href="#" target="_blank" rel="noopener">Prefer it framed? Framed &amp; canvas prints of this piece on Etsy →</a>
       </div>
     </div>
     <button class="pd-x" id="pdClose" type="button" aria-label="Close">&times;</button>
@@ -384,7 +383,6 @@ function fillDetail(id){
   facts.push('<li><b>Personal-use license:</b> print it as often as you like for your home, office, or as a gift. Not for resale or merchandise.</li>');
   document.getElementById("pdFacts").innerHTML = facts.join("");
   document.getElementById("pdGallery").href = "gallery/?piece=" + encodeURIComponent(id);
-  const fr = document.getElementById("pdFramed"); fr.href = p.url || "#"; fr.hidden = !p.url;
 }
 function openDetail(id){ fillDetail(id); document.getElementById("pd").classList.add("open"); document.body.style.overflow="hidden";
   try { history.replaceState(null, "", "?piece=" + encodeURIComponent(id)); } catch(e) {} document.getElementById("pdClose").focus(); }
