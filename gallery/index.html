@@ -580,7 +580,7 @@ fetch(STORE_API+'/bfv-checkout').then(r=>r.json()).then(st=>{ CART_ON=!!st.open|
 function openLB(d){ const url=LISTING[d.slug]||null, price=priceOf(d.slug); lbSlug=d.slug;
   $('lbImg').src=d.img; $('lbImg').alt=d.name; $('lbName').textContent=d.name; $('lbEy').textContent=d.col||'Black Future Vision';
   $('lbListed').hidden=!url; $('lbUnlisted').hidden=!!url;
-  if(url){ $('lbPrice').textContent='$'+price.toFixed(2); $('lbBuy').href=url; $('lbBuy').hidden=CART_ON; $('lbAdd').hidden=!CART_ON; $('lbCart').hidden=true; if(CART_ON)syncCartButtons(); }
+  if(url){ $('lbPrice').textContent='$'+price.toFixed(2); $('lbBuy').href=url; const inCart=CART_ON&&d.slug!=='starrgate-oracle'; $('lbBuy').hidden=inCart; $('lbAdd').hidden=!inCart; $('lbCart').hidden=true; if(inCart)syncCartButtons(); }
   keys.clear(); lb.classList.add('open'); }
 function closeLB(){ lb.classList.remove('open'); }
 $('lbClose').onclick=closeLB; lb.addEventListener('click',e=>{ if(e.target===lb)closeLB(); });

@@ -244,7 +244,8 @@ const byId = id => PRODUCTS.find(p => p.id === id);
    Once the checkout function reports it is open, the page switches to a cart: add several pieces, pay once. */
 const STORE_API = "https://pgjiuwldexvjokzlzqlr.supabase.co/functions/v1";
 let CART_ON = false;
-const addBtn = p => CART_ON
+const ETSY_ONLY = new Set(["starrgate-oracle"]);   // not in the cart yet: its download file is still being uploaded
+const addBtn = p => CART_ON && !ETSY_ONLY.has(p.id)
   ? '<button class="add" data-id="'+p.id+'">'+(cart[p.id] ? 'In cart \u2713' : 'Add to cart')+'</button>'
   : '<a class="add" href="'+p.url+'" target="_blank" rel="noopener">Buy on Etsy</a>';
 
