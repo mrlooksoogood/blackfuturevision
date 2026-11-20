@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Black Future Vision — Shop</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Shop Black Future Vision — original Afrofuturist digital art prints. Instant high-resolution downloads, printable at any size.">
@@ -111,6 +112,9 @@ footer.site { border-top:1px solid var(--line); background:var(--surface-2); mar
 @media (max-width:900px){ .grid{ grid-template-columns:repeat(3,1fr);} }
 @media (max-width:680px){ .grid{ grid-template-columns:repeat(2,1fr); gap:14px;} .wrap{padding:0 18px;} }
 @media (max-width:380px){ .grid{ grid-template-columns:1fr;} }
+a.add{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+a.add{white-space:nowrap}
+@media (max-width:520px){ .card .row{flex-direction:column;align-items:flex-start;gap:10px} .card .row a.add{width:100%} }
 </style>
 
 <script src="https://payhip.com/payhip.js" defer></script>
@@ -242,7 +246,9 @@ const byId = id => PRODUCTS.find(p => p.id === id);
 const PAYHIP_ON = PRODUCTS.length > 0 && PRODUCTS.every(p => p.payhip);
 const addBtn = p => p.payhip
   ? '<a class="add payhip-add-to-cart-button" data-theme="none" data-product="'+p.payhip+'" href="https://payhip.com/b/'+p.payhip+'">Add to cart</a>'
-  : '<button class="add" data-id="'+p.id+'">Add to cart</button>';
+  : p.url
+    ? '<a class="add" href="'+p.url+'" target="_blank" rel="noopener">Buy on Etsy</a>'
+    : '<button class="add" data-id="'+p.id+'">Add to cart</button>';
 
 /* ---- cart state (localStorage) ---- */
 let cart = {};
@@ -307,6 +313,7 @@ if (PAYHIP_ON){
   cartOpenBtn.setAttribute("data-theme","none");
   document.getElementById("cart").style.display = "none";   // Payhip supplies its own cart UI
 } else {
+  if (PRODUCTS.every(p => p.url)) cartOpenBtn.style.display = "none";   // every button goes straight to Etsy, so there is no cart to open
   const openCart=()=>{document.getElementById("cart").classList.add("open"); document.getElementById("scrim").classList.add("open");};
   const closeCart=()=>{document.getElementById("cart").classList.remove("open"); document.getElementById("scrim").classList.remove("open");};
   cartOpenBtn.onclick=openCart;

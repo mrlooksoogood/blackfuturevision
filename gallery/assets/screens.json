@@ -1,0 +1,10 @@
+{
+  "_how_to": "Each screen takes one of: {type:'video', src:'./assets/video/FILE.mp4'}  |  {type:'carousel'} (cycles the catalog)  |  {type:'slides', images:['./assets/...jpg', ...]}  |  {type:'card', slides:[{eyebrow,title,body}, ...]}",
+  "monolith": { "type": "video", "src": "./assets/video/hero-loop7.mp4", "title": "Black Future Vision" },
+  "rotunda": { "type": "carousel" },
+  "concierge": { "type": "card", "slides": [
+    { "eyebrow": "Welcome", "title": "Black Future Vision", "body": "An Afrofuturist collection, hung in a gallery suspended in space." },
+    { "eyebrow": "How to move", "title": "Walk the gallery", "body": "Scroll or swipe up to follow the tour. Use the arrow keys or the joystick to roam on your own." },
+    { "eyebrow": "How to buy", "title": "Tap any piece", "body": "Every work opens its own card with the price and a direct link to buy." }
+  ] }
+}
