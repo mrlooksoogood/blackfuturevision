@@ -67,17 +67,21 @@
   .ctl{position:absolute;right:clamp(12px,3vw,24px);bottom:22px;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
   .pill{pointer-events:auto;min-height:44px;padding:0 18px;border-radius:100px;border:1px solid rgba(255,255,255,.18);background:rgba(5,6,10,.66);backdrop-filter:blur(8px);color:var(--ink);font:600 .8rem 'Sora',system-ui,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:border-color .14s}
   .pill:hover{border-color:var(--emerald)}
-  #tourBtn{display:none} body[data-mode=walk] #tourBtn{display:inline-flex}
-  body[data-mode=walk] .progress,body[data-mode=walk] .title-card{opacity:0!important}
+  #tourBtn{display:inline-flex}
+  body[data-mode=walk] .progress,body[data-mode=walk] .title-card,body[data-mode=view] .progress,body[data-mode=view] .title-card{opacity:0!important}
   .rooms{position:absolute;right:clamp(12px,3vw,24px);bottom:78px;width:min(264px,78vw);background:rgba(8,10,9,.94);border:1px solid rgba(230,192,78,.24);border-radius:16px;padding:8px;display:none;pointer-events:auto;backdrop-filter:blur(10px)}
   .rooms.open{display:block}
   .rooms button{display:flex;width:100%;min-height:44px;align-items:center;gap:12px;padding:0 12px;background:none;border:none;border-radius:10px;color:var(--ink);font:500 .86rem 'Sora',system-ui,sans-serif;text-align:left;cursor:pointer}
   .rooms button:hover{background:rgba(255,255,255,.07)}
   .rooms button i{font:400 .64rem 'Space Mono',monospace;font-style:normal;letter-spacing:.14em;color:var(--emerald);width:20px}
-  .focus{position:absolute;left:50%;bottom:74px;transform:translateX(-50%);max-width:min(440px,86vw);min-height:44px;padding:0 8px 0 18px;border-radius:100px;border:1px solid rgba(230,192,78,.4);background:rgba(5,6,10,.78);backdrop-filter:blur(8px);color:var(--ink);font:500 .82rem 'Sora',system-ui,sans-serif;display:none;align-items:center;gap:12px;pointer-events:auto;cursor:pointer}
-  .focus.on{display:inline-flex}
-  .focus span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .focus b{flex:none;font-weight:600;font-size:.76rem;color:var(--emerald);border:1px solid rgba(63,208,180,.5);border-radius:100px;padding:6px 12px}
+  .artbar{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:min(560px,calc(100vw - 32px));display:flex;align-items:stretch;gap:8px;pointer-events:auto}
+  .ab-nav{flex:none;width:56px;min-height:56px;border-radius:16px;border:1px solid rgba(230,192,78,.45);background:rgba(5,6,10,.82);backdrop-filter:blur(8px);color:var(--gold);font:600 1.9rem/1 'Sora',system-ui,sans-serif;cursor:pointer;display:grid;place-items:center;transition:border-color .14s,background .14s}
+  .ab-nav:hover,.ab-nav:focus-visible{border-color:var(--gold);background:rgba(230,192,78,.14)}
+  .ab-info{flex:1;min-width:0;min-height:56px;border-radius:16px;border:1px solid rgba(255,255,255,.16);background:rgba(5,6,10,.82);backdrop-filter:blur(8px);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px;padding:6px 14px;text-align:center}
+  .ab-info:hover,.ab-info:focus-visible{border-color:var(--emerald)}
+  .ab-name{font:600 .95rem 'Sora',system-ui,sans-serif;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ab-sub{font:500 .74rem 'Sora',system-ui,sans-serif;color:var(--emerald)}
+  @media (min-width:900px){ .ctl{bottom:22px} }
   .joy{position:absolute;left:16px;bottom:24px;width:112px;height:112px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:rgba(5,6,10,.4);pointer-events:auto;touch-action:none;display:none}
   .joy .nub{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(244,236,216,.7);box-shadow:0 2px 14px rgba(0,0,0,.5)}
   .toast{position:absolute;left:50%;top:118px;transform:translateX(-50%);font-size:.78rem;color:var(--ink);background:rgba(5,6,10,.8);border:1px solid rgba(255,255,255,.14);padding:8px 16px;border-radius:100px;opacity:0;transition:opacity .3s;white-space:nowrap}
@@ -87,7 +91,7 @@
   #nogl[hidden]{display:none}
   #nogl h2{font-family:'Unbounded',sans-serif;font-size:1.3rem}
   #nogl p{margin:12px auto 22px;color:var(--ink-soft);max-width:34ch;font-size:.92rem}
-  @media (pointer:coarse){ .joy{display:block} .focus{bottom:150px} .hint{bottom:auto;top:118px} .toast{top:160px} }
+  @media (pointer:coarse){ .joy{display:block} .artbar{bottom:150px} .hint{bottom:auto;top:118px} .toast{top:160px} }
   .lb button.close{margin-top:16px;background:transparent;border:1px solid rgba(255,255,255,.22);color:var(--ink-soft);width:100%}
   @media (max-width:720px){ .lb .card{grid-template-columns:1fr;gap:16px} .lb-media img{max-height:38vh} }
   #loader{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--ground);transition:opacity .6s}
@@ -103,7 +107,7 @@
 <div class="hud">
   <div class="bar">
     <a class="brand" href="../"><span class="orb"></span>Black Future Vision</a>
-    <a class="shop" href="https://www.etsy.com/shop/BlackFutureVision" target="_blank" rel="noopener">Shop the collection</a>
+    <a class="shop" href="../shop.html">Shop the collection</a>
   </div>
   <div class="roomtag" id="roomtag"><div class="n" id="rtN">Room</div><div class="t" id="rtT">Name</div></div>
   <div class="title-card" id="titleCard">
@@ -113,11 +117,15 @@
   </div>
   <div class="hint" id="hint"></div>
   <div class="toast" id="toast"></div>
-  <button class="focus" id="focus" type="button"><span id="focusName"></span><b>View</b></button>
+  <div class="artbar" id="artbar" role="group" aria-label="Browse the art">
+    <button class="ab-nav" id="abPrev" type="button" aria-label="Previous piece">&#8249;</button>
+    <button class="ab-info" id="abInfo" type="button"><span class="ab-name" id="abName">Browse the art</span><span class="ab-sub" id="abSub">See every piece face to face</span></button>
+    <button class="ab-nav" id="abNext" type="button" aria-label="Next piece">&#8250;</button>
+  </div>
   <div class="joy" id="joy" aria-label="Walk"><div class="nub" id="nub"></div></div>
   <div class="rooms" id="rooms" role="menu"></div>
   <div class="ctl">
-    <button class="pill" id="tourBtn" type="button">▶ Resume the tour</button>
+    <button class="pill" id="tourBtn" type="button">▶ Start the tour</button>
     <button class="pill" id="roomsBtn" type="button" aria-haspopup="true">Rooms</button>
   </div>
   <div class="progress"><div class="fill" id="pfill"></div></div>
@@ -133,17 +141,18 @@
       <button class="buy" id="lbAdd" type="button" hidden>Add to cart</button>
       <a class="lb-alt" id="lbCart" href="../shop.html?cart=open" hidden>View cart and check out →</a>
       <div class="lb-note">Instant high-resolution download. Print it at home or at any print shop.</div>
-      <a class="lb-alt" href="https://www.etsy.com/shop/BlackFutureVision" target="_blank" rel="noopener">Shop framed, canvas and acrylic prints on Etsy →</a>
+      <a class="lb-alt" id="lbDetails" href="../shop.html">Full details, file size and print sizes →</a>
+      <a class="lb-alt" id="lbFramed" href="#" target="_blank" rel="noopener" style="border-top:none;padding-top:0">Prefer it framed? Framed &amp; canvas prints on Etsy →</a>
     </div>
     <div class="lb-sec" id="lbUnlisted" hidden>
       <div class="lb-note">This piece is not in the shop yet.</div>
-      <a class="buy" href="https://www.etsy.com/shop/BlackFutureVision" target="_blank" rel="noopener">Shop the collection on Etsy →</a>
+      <a class="buy" href="../shop.html">Shop the collection →</a>
     </div>
     <button class="close" id="lbClose">Keep walking</button>
   </div>
 </div></div>
 <div class="fade" id="fade"></div>
-<div id="nogl" hidden><div><h2>The 3D gallery needs WebGL</h2><p>This browser could not open the 3D gallery. The whole collection is in the shop.</p><a class="shop" href="https://www.etsy.com/shop/BlackFutureVision">Shop the collection</a></div></div>
+<div id="nogl" hidden><div><h2>The 3D gallery needs WebGL</h2><p>This browser could not open the 3D gallery. The whole collection is in the shop.</p><a class="shop" href="../shop.html">Shop the collection</a></div></div>
 <div id="loader"><div><div class="ring"></div><p>Entering the gallery</p></div></div>
 
 <script type="importmap">{"imports":{"three":"./assets/lib/three.module.min.js"}}</script>
@@ -182,6 +191,7 @@ try{
   composer=new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene,camera));
   bloomPass=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), IS_MOBILE?0.55:0.82, 0.72, 0.82); // strength, radius, threshold
+  bloomPass.userData={walk:bloomPass.strength, view:0.12};                 // glow drops while a piece is viewed up close, so its colours read true
   composer.addPass(bloomPass);
   composer.addPass(new OutputPass());
 }catch(e){ composer=null; console.warn('[gallery] bloom unavailable, direct render:', e.message); }
@@ -506,20 +516,24 @@ const PATH_LEN=path.getLength(), WHEEL_M=0.12, SWIPE_M=0.48, KEY_M=15;          
 const WALK_SPEED=7, RUN_SPEED=13, TURN_SPEED=1.9, TAP_RANGE=46;
 const SAMPLES=Array.from({length:901},(_,i)=>path.getPointAt(i/900));
 const nearestT=p=>{ let best=0,bd=Infinity; SAMPLES.forEach((s,i)=>{ const d=s.distanceToSquared(p); if(d<bd){bd=d;best=i;} }); return best/900; };
-let mode='tour', targetT=0, curT=0, blend=0, stride=0;
+let mode='tour', targetT=0, curT=0, blend=0, stride=0, autoplay=false;
+const AUTO_SPEED=1.9;                                   // metres per second on the automatic guided tour (~5 minutes end to end)
 const walk={x:0,z:12,y:0,fy:0,yaw:0,pitch:0,goal:null};
 const look={x:0,y:0}, lookTarget={x:0,y:0}, keys=new Set(), joy={x:0,y:0};
 const vTmp=new THREE.Vector3();
 const marker=new THREE.Mesh(new THREE.RingGeometry(0.28,0.4,32),new THREE.MeshBasicMaterial({color:EMERALD,transparent:true,opacity:.85,fog:false}));
 marker.rotation.x=-Math.PI/2; marker.visible=false; scene.add(marker);
-function setMode(m){ mode=m; document.body.dataset.mode=m; }
+function setMode(m){ mode=m; document.body.dataset.mode=m; if(m!=='view'){ viewIdx=-1; viewMesh=null; glide=null; openAfterGlide=false; } if(m!=='tour')stopAuto(); }
+function syncTourBtn(){ const b=document.getElementById('tourBtn'); if(!b)return; b.textContent=autoplay?'❚❚ Pause the tour':(mode==='tour'&&curT<0.002?'▶ Start the tour':(curT>=0.999?'▶ Replay the tour':'▶ Resume the tour')); }
+function stopAuto(){ if(!autoplay)return; autoplay=false; syncTourBtn(); }
+function startAuto(){ if(mode!=='tour')enterTour(); if(curT>=0.999)targetT=curT=0; autoplay=true; hideHint(); syncTourBtn(); }
 function resetLook(){ look.x=look.y=lookTarget.x=lookTarget.y=0; }
 function enterWalk(){ if(mode==='walk')return true;
   const spot=nav.nearest(camera.position.x,camera.position.z); if(!spot)return false;
   camera.getWorldDirection(vTmp); walk.yaw=Math.atan2(-vTmp.x,-vTmp.z); walk.pitch=Math.asin(clamp(vTmp.y,-1,1));
   walk.x=spot.x; walk.z=spot.z; walk.fy=spot.y; walk.y=camera.position.y-EYE; walk.goal=null; blend=.5; setMode('walk'); hideHint(); return true; }
 function enterTour(){ if(mode==='tour')return; targetT=curT=nearestT(camera.position); resetLook(); marker.visible=false; blend=1; setMode('tour'); }
-function advance(metres){ if(lbOpen())return; enterTour(); targetT=clamp(targetT+metres/PATH_LEN,0,1); hideHint(); }
+function advance(metres){ if(lbOpen())return; stopAuto(); enterTour(); targetT=clamp(targetT+metres/PATH_LEN,0,1); hideHint(); }
 const kickMedia=()=>screens.forEach(s=>s.src.kick&&s.src.kick());                     // browsers want a gesture before video plays
 
 addEventListener('wheel',e=>advance(e.deltaY*WHEEL_M),{passive:true});
@@ -527,6 +541,8 @@ const WALK_KEYS=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','Arro
 addEventListener('keydown',e=>{
   if(e.key==='Escape'){ closeLB(); roomsEl.classList.remove('open'); return; }
   if(lbOpen()||(e.target.closest&&e.target.closest('button,a')))return;
+  if(mode==='view'&&(e.code==='ArrowLeft'||e.code==='ArrowRight')){ stepPiece(e.code==='ArrowRight'?1:-1); e.preventDefault(); return; }
+  if(e.code==='Enter'&&focusData){ openLB(focusData); e.preventDefault(); return; }
   if(WALK_KEYS.has(e.code)){ keys.add(e.code); if(!e.code.startsWith('Shift')){ enterWalk(); walk.goal=null; marker.visible=false; e.preventDefault(); kickMedia(); } }
   else if(e.code==='Space'||e.code==='PageDown'){ advance(KEY_M); e.preventDefault(); }
   else if(e.code==='PageUp'){ advance(-KEY_M); e.preventDefault(); } });
@@ -540,8 +556,9 @@ cv.addEventListener('pointermove',e=>{
   if(!drag||drag.id!==e.pointerId){ if(!drag&&e.pointerType==='mouse'&&mode==='tour'){ lookTarget.x=(e.clientX/innerWidth-.5)*1.4; lookTarget.y=-(e.clientY/innerHeight-.5)*0.5; } return; }
   const dx=e.clientX-drag.x, dy=e.clientY-drag.y; drag.x=e.clientX; drag.y=e.clientY;
   if(!drag.axis){ const mx=Math.abs(e.clientX-drag.sx), my=Math.abs(e.clientY-drag.sy); if(Math.max(mx,my)<8)return;
-    drag.axis=(drag.touch&&mode==='tour'&&my>mx)?'advance':'look'; hideHint(); }
-  if(drag.axis==='advance') targetT=clamp(targetT-dy*SWIPE_M/PATH_LEN,0,1);
+    drag.axis=(drag.touch&&(mode==='tour'||mode==='view')&&my>mx)?'advance':'look'; hideHint();
+    if(mode==='view'){ if(drag.axis==='advance')enterTour(); else enterWalk(); } }
+  if(drag.axis==='advance'){ stopAuto(); targetT=clamp(targetT-dy*SWIPE_M/PATH_LEN,0,1); }
   else if(mode==='tour'){ lookTarget.x=clamp(lookTarget.x+dx*0.0026,-1.45,1.45); lookTarget.y=clamp(lookTarget.y-dy*0.0016,-.6,.6); }
   else { walk.yaw-=dx*0.0034; walk.pitch=clamp(walk.pitch-dy*0.0026,-1.1,1.1); } });
 const endDrag=e=>{ if(!drag||drag.id!==e.pointerId)return; const wasTap=!drag.axis; drag=null; if(wasTap&&e.type==='pointerup')pick(e.clientX,e.clientY); };
@@ -560,7 +577,7 @@ joyEl.addEventListener('pointerup',joyEnd); joyEl.addEventListener('pointercance
 const ray=new THREE.Raycaster(), mouse=new THREE.Vector2(); ray.far=95;
 function pick(cx,cy){ mouse.set((cx/innerWidth)*2-1,-(cy/innerHeight)*2+1); ray.setFromCamera(mouse,camera);
   const hit=ray.intersectObjects([...clickable,...screens.map(s=>s.mesh)],false)[0];
-  if(hit){ const u=hit.object.userData; if(u.screen)tapScreen(u.screen); else openLB(u); return; }
+  if(hit){ const u=hit.object.userData; if(u.screen)tapScreen(u.screen); else viewPiece(hit.object,true); return; }
   const o=ray.ray.origin, d=ray.ray.direction; if(d.y>-0.05)return;
   const fy=camera.position.y-EYE, k=(fy-o.y)/d.y; if(k<=0||k>TAP_RANGE)return;
   const gx=o.x+d.x*k, gz=o.z+d.z*k, gy=nav.floorAt(gx,gz); if(gy===null||Math.abs(gy-fy)>2.5)return;
@@ -580,16 +597,17 @@ fetch(STORE_API+'/bfv-checkout').then(r=>r.json()).then(st=>{ CART_ON=!!st.open|
 function openLB(d){ const url=LISTING[d.slug]||null, price=priceOf(d.slug); lbSlug=d.slug;
   $('lbImg').src=d.img; $('lbImg').alt=d.name; $('lbName').textContent=d.name; $('lbEy').textContent=d.col||'Black Future Vision';
   $('lbListed').hidden=!url; $('lbUnlisted').hidden=!!url;
+  $('lbDetails').href='../shop.html?piece='+encodeURIComponent(d.slug); $('lbFramed').href=url||'#'; $('lbFramed').hidden=!url;
   if(url){ $('lbPrice').textContent='$'+price.toFixed(2); $('lbBuy').href=url; const inCart=CART_ON&&d.slug!=='starrgate-oracle'; $('lbBuy').hidden=inCart; $('lbAdd').hidden=!inCart; $('lbCart').hidden=true; if(inCart)syncCartButtons(); }
   keys.clear(); lb.classList.add('open'); }
 function closeLB(){ lb.classList.remove('open'); }
 $('lbClose').onclick=closeLB; lb.addEventListener('click',e=>{ if(e.target===lb)closeLB(); });
 
 // ===== HUD =====
-const titleCard=$('titleCard'),hint=$('hint'),pfill=$('pfill'),roomtag=$('roomtag'),rtN=$('rtN'),rtT=$('rtT'),roomsEl=$('rooms'),fadeEl=$('fade'),focusEl=$('focus');
+const titleCard=$('titleCard'),hint=$('hint'),pfill=$('pfill'),roomtag=$('roomtag'),rtN=$('rtN'),rtT=$('rtT'),roomsEl=$('rooms'),fadeEl=$('fade');
 hint.innerHTML=matchMedia('(pointer:coarse)').matches
-  ? '<b>Swipe up</b> to walk &nbsp;·&nbsp; <b>drag</b> to look &nbsp;·&nbsp; <b>tap</b> a piece'
-  : '<b>Scroll</b> to tour &nbsp;·&nbsp; <b>arrow keys</b> to roam &nbsp;·&nbsp; <b>click</b> a piece';
+  ? '<b>Tap</b> a piece to see it up close &nbsp;·&nbsp; <b>‹ ›</b> to go piece by piece'
+  : '<b>Click</b> a piece to see it up close &nbsp;·&nbsp; <b>‹ ›</b> to go piece by piece &nbsp;·&nbsp; <b>scroll</b> to tour';
 let hintTimer=setTimeout(hideHint,7500); function hideHint(){ hint.style.opacity=0; clearTimeout(hintTimer); }
 let toastTimer=null; function toast(msg){ const t=$('toast'); t.textContent=msg; t.style.opacity=1; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{t.style.opacity=0;},1800); }
 let curRoom=-1,tagTimer=null;
@@ -598,20 +616,64 @@ function updateRoom(x,z){ let idx=REGIONS.findIndex(r=>r.test(x,z)); if(idx<0)id
 // rooms menu: jump straight to any room (fades through black so the cut reads as intentional)
 const ROOMS=[['Entrance',P(0,12)],['The Collection',P(0,-4)],['The Void Deck',PY(42,DY,-48)],['Cosmic Worlds',PY(0,1.3,-86)],
   ['The Collection II',P(3.2,-112)],['The Rotunda',PY(-36,RY,-144)],['Hip Hop Immortals',P(0,-190)],['Grand Salon',P(0,-222)]];
-function jumpTo(t){ roomsEl.classList.remove('open'); fadeEl.classList.add('on'); hideHint();
+function jumpTo(t){ stopAuto(); roomsEl.classList.remove('open'); fadeEl.classList.add('on'); hideHint();
   setTimeout(()=>{ setMode('tour'); marker.visible=false; targetT=curT=t; resetLook(); blend=0; setTimeout(()=>fadeEl.classList.remove('on'),120); },230); }
 ROOMS.forEach(([name,pt],i)=>{ const b=document.createElement('button'); b.type='button'; b.setAttribute('role','menuitem');
   b.innerHTML=`<i>${String(i+1).padStart(2,'0')}</i>${name}`; b.onclick=()=>jumpTo(nearestT(pt)); roomsEl.appendChild(b); });
-$('roomsBtn').onclick=()=>roomsEl.classList.toggle('open'); $('tourBtn').onclick=()=>enterTour();
-// focus label: whatever piece sits in the middle of the view gets a one-tap "View" (easier than hitting the frame on a phone)
-let focusData=null;
-function updateFocus(){ let d=null;
-  if(!lbOpen()){ mouse.set(0,0); ray.setFromCamera(mouse,camera); const hit=ray.intersectObjects(clickable,false)[0];
-    if(hit&&hit.distance<14+Math.max(hit.object.scale.x,hit.object.scale.y)) d=hit.object.userData; }
-  if(d===focusData)return; focusData=d;
-  if(d){ const p=priceOf(d.slug); $('focusName').textContent=d.name+(p?'  ·  $'+p.toFixed(2):''); }
-  focusEl.classList.toggle('on',!!d); }
-focusEl.onclick=()=>{ if(focusData)openLB(focusData); };
+$('roomsBtn').onclick=()=>roomsEl.classList.toggle('open'); $('tourBtn').onclick=()=>{ if(autoplay)stopAuto(); else startAuto(); };
+// ===== HEAD-ON VIEWING: every piece framed straight on, one tap or one arrow at a time =====
+const VIEW_FILL=0.74, VIEW_GLIDE=1.15, VIEW_MIN=1.4, VIEW_FAR=22;     // piece fills ~74% of the screen; glide seconds; closest distance (m)
+let order=[], orderLen=-1, viewIdx=-1, viewMesh=null, glide=null, openAfterGlide=false, focusData=null;
+const qTmp=new THREE.Quaternion(), wp=new THREE.Vector3(), nrm=new THREE.Vector3();
+const ready=m=>!!(m.material.map&&m.material.map.image);
+function artOrder(){                                       // walking order along the tour, rebuilt as pieces finish loading
+  const n=clickable.filter(ready).length; if(n===orderLen)return order;
+  order=clickable.filter(ready).map(m=>{ m.getWorldPosition(wp); return {m,t:nearestT(wp)}; }).sort((a,b)=>a.t-b.t).map(o=>o.m);
+  orderLen=n; if(viewMesh)viewIdx=order.indexOf(viewMesh); return order; }
+function facingPose(m){                                    // where to stand to see m squarely and whole
+  m.getWorldPosition(wp); m.getWorldQuaternion(qTmp); nrm.set(0,0,1).applyQuaternion(qTmp); nrm.y=0; nrm.normalize();
+  const v=THREE.MathUtils.degToRad(camera.fov)/2, h=Math.atan(Math.tan(v)*camera.aspect);
+  const ideal=Math.max(VIEW_MIN,Math.max((m.scale.y/2)/Math.tan(v),(m.scale.x/2)/Math.tan(h))/VIEW_FILL);
+  const inside=d=>nav.floorAt(wp.x+nrm.x*d,wp.z+nrm.z*d)!==null;      // stand on a walkable spot, never inside a wall
+  let d=null;
+  for(let t=ideal; t<=ideal*2.2+2 && d===null; t+=0.25) if(inside(t)) d=t;   // prefer stepping back to see it whole
+  for(let t=ideal; t>=VIEW_MIN && d===null; t-=0.25) if(inside(t)) d=t;      // else as far back as the room allows
+  if(d===null) d=ideal;
+  const x=wp.x+nrm.x*d, z=wp.z+nrm.z*d;
+  return { pos:new THREE.Vector3(x,wp.y,z), look:wp.clone() }; }
+function viewPiece(m,openCard){
+  if(!m||!ready(m))return;
+  artOrder(); viewMesh=m; viewIdx=order.indexOf(m); openAfterGlide=!!openCard;
+  const to=facingPose(m);
+  if(camera.position.distanceTo(to.pos)>VIEW_FAR){            // far away (another room): fade through black instead of flying through walls
+    const back=to.pos.clone().sub(to.look).setY(0).normalize().multiplyScalar(2.5).add(to.pos);
+    fadeEl.classList.add('on'); glide=null;
+    setTimeout(()=>{ if(viewMesh!==m)return; camera.position.copy(back); aheadSm.copy(to.look); glide={from:back,fromLook:to.look.clone(),to,k:0}; setTimeout(()=>fadeEl.classList.remove('on'),120); },230);
+  } else glide={from:camera.position.clone(),fromLook:aheadSm.clone(),to,k:0};
+  keys.clear(); walk.goal=null; marker.visible=false; roomsEl.classList.remove('open'); hideHint(); setMode('view'); showPiece(m.userData); }
+function stepPiece(dir){
+  const list=artOrder(); if(!list.length)return;
+  let i=viewIdx;
+  if(i<0){ const t=nearestT(camera.position); i=list.findIndex(m=>{ m.getWorldPosition(wp); return nearestT(wp)>=t; }); if(i<0)i=list.length-1; if(dir<0)i=Math.max(0,i-1); }
+  else i=(i+dir+list.length)%list.length;
+  viewPiece(list[i],false); }
+function showPiece(d){
+  focusData=d||null;
+  if(!d){ $('abName').textContent='Browse the art'; $('abSub').textContent='See every piece face to face'; return; }
+  const p=priceOf(d.slug); $('abName').textContent=d.name+(p?'  ·  $'+p.toFixed(2):'');
+  $('abSub').textContent=(mode==='view'&&viewIdx>=0?(viewIdx+1)+' of '+order.length+'  ·  ':'')+'Tap to view & buy'; }
+function updateFocus(){                                    // outside viewing mode: whatever piece is centred on screen
+  if(mode==='view'||lbOpen())return;
+  let d=null; mouse.set(0,0); ray.setFromCamera(mouse,camera); const hit=ray.intersectObjects(clickable,false)[0];
+  if(hit&&hit.distance<14+Math.max(hit.object.scale.x,hit.object.scale.y)) d=hit.object.userData;
+  if(d!==focusData)showPiece(d); }
+$('abPrev').onclick=()=>stepPiece(-1); $('abNext').onclick=()=>stepPiece(1);
+$('abInfo').onclick=()=>{ if(focusData)openLB(focusData); else stepPiece(1); };
+function viewStep(dt){
+  if(!glide)return;
+  glide.k=Math.min(1,glide.k+dt/VIEW_GLIDE); const e=smooth(0,1,glide.k);
+  want.lerpVectors(glide.from,glide.to.pos,e); ahead.lerpVectors(glide.fromLook,glide.to.look,e);
+  if(glide.k>=1&&openAfterGlide){ openAfterGlide=false; openLB(viewMesh.userData); } }
 THREE.DefaultLoadingManager.onLoad=()=>fade(); let faded=false; function fade(){ if(faded)return; faded=true; const l=$('loader'); l.style.opacity=0; setTimeout(()=>l.remove(),650); } setTimeout(fade,6000);
 
 // ===== debug hooks (headless capture / QA) =====
@@ -621,8 +683,11 @@ window.__tOf=(x,y,z)=>nearestT(new THREE.Vector3(x,y,z));
 window.__walkTo=(x,z,yawDeg=0,pitchDeg=0)=>{ const s=nav.nearest(x,z); if(!s)return false;
   Object.assign(walk,{x:s.x,z:s.z,fy:s.y,y:s.y,yaw:yawDeg*Math.PI/180,pitch:pitchDeg*Math.PI/180,goal:null}); setMode('walk'); blend=0; return true; };
 window.__key=(code,down)=>{ if(down){ keys.add(code); enterWalk(); } else keys.delete(code); };
+window.__view=slug=>{ const c=clickable.find(m=>m.userData.slug===slug); if(c)viewPiece(c,false); return !!c; };
+window.__step=d=>{ stepPiece(d); return {idx:viewIdx,of:order.length,name:focusData&&focusData.name}; };
 window.__lbTest=slug=>{ const c=clickable.find(m=>m.userData.slug===slug)||clickable[0]; if(c)openLB(c.userData); return clickable.length; };
-window.__state=()=>({mode,t:+curT.toFixed(4),len:+PATH_LEN.toFixed(1),pos:camera.position.toArray().map(v=>+v.toFixed(2)),fixtures:pool.count(),pieces:clickable.length,listed:Object.keys(LISTING).length,screens:screens.map(s=>s.src.kind),quality:qLevel,frames:frameNo});
+window.__auto=()=>{ startAuto(); return autoplay; };
+window.__state=()=>({autoplay,mode,t:+curT.toFixed(4),len:+PATH_LEN.toFixed(1),pos:camera.position.toArray().map(v=>+v.toFixed(2)),fixtures:pool.count(),pieces:clickable.length,listed:Object.keys(LISTING).length,screens:screens.map(s=>s.src.kind),quality:qLevel,frames:frameNo});
 
 // ===== loop =====
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, clock=new THREE.Clock();
@@ -632,6 +697,7 @@ const pos=new THREE.Vector3(), tan=new THREE.Vector3(), fwd=new THREE.Vector3(),
 const GLANCES=[ {at:new THREE.Vector3(PLAN.monolith.x,PLAN.monolith.y,PLAN.monolith.z), k:p=>smooth(31,38,p.x)*0.8},
                 {at:new THREE.Vector3(PLAN.rotunda.cx-PLAN.rotunda.r,PLAN.rotunda.y+6,PLAN.rotunda.cz), k:p=>smooth(-29,-35,p.x)*0.6} ];
 function tourStep(dt){
+  if(autoplay&&!lbOpen()&&!document.hidden){ targetT=Math.min(1,targetT+AUTO_SPEED*dt/PATH_LEN); if(targetT>=1)stopAuto(); }
   curT+=(targetT-curT)*(1-Math.exp(-dt*3.4)); look.x+=(lookTarget.x-look.x)*0.08; look.y+=(lookTarget.y-look.y)*0.08;
   const t=clamp(curT,0,1); path.getPointAt(t,pos); path.getTangentAt(t,tan);
   want.set(pos.x,pos.y+(reduce?0:Math.sin(t*PATH_LEN*0.165)*0.026),pos.z);
@@ -670,16 +736,21 @@ function watchQuality(raw){ if(HOLD_QUALITY||qLevel>=2||document.hidden)return; 
   console.info('[gallery] quality lowered to level',qLevel,'at',fps.toFixed(0),'fps'); }
 let frameNo=0;
 function frame(){ requestAnimationFrame(frame); const raw=clock.getDelta(), dt=Math.min(raw,0.1); frameNo++;
-  if(mode==='tour')tourStep(dt); else walkStep(dt);
-  const kp=blend>0?1-Math.exp(-dt*7):1; blend=Math.max(0,blend-dt*1.3);              // ease the camera across a tour<->walk switch
+  if(mode==='tour')tourStep(dt); else if(mode==='view')viewStep(dt); else walkStep(dt);
+  const kp=(blend>0&&mode!=='view')?1-Math.exp(-dt*7):1; blend=Math.max(0,blend-dt*1.3);              // ease the camera across a tour<->walk switch
   camera.position.lerp(want,kp); aheadSm.lerp(ahead,kp); camera.lookAt(aheadSm);
   pool.update(camera.position);
+  if(bloomPass){ const g=mode==='view'?bloomPass.userData.view:bloomPass.userData.walk; bloomPass.strength+=(g-bloomPass.strength)*Math.min(1,dt*3); }
   for(const s of screens)s.src.tick(dt,s.near(camera.position));
   planet.rotation.y+=0.0008; updateRoom(camera.position.x,camera.position.z);
-  if(frameNo%8===0)updateFocus();
+  if(frameNo%8===0){ updateFocus(); if(!autoplay)syncTourBtn(); }
   if(composer)composer.render(); else renderer.render(scene,camera);
   watchQuality(raw); }
 setMode('tour'); frame();
+// deep link from the shop: gallery/?piece=<slug> opens facing that piece
+if(QS.get('piece')){ const want=QS.get('piece'), until=Date.now()+20000;
+  const tryOpen=()=>{ const m=clickable.find(c=>c.userData.slug===want); if(m&&ready(m)){ viewPiece(m,false); return; } if(Date.now()<until)setTimeout(tryOpen,400); };
+  setTimeout(tryOpen,800); }
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);
   if(composer)composer.setSize(innerWidth,innerHeight); if(bloomPass)bloomPass.setSize(innerWidth,innerHeight);});
 </script>
