@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Thank you — Black Future Vision</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;700;800&family=Sora:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{ --ground:#0a0d0a; --surface:#121a14; --ink:#f4ecd8; --ink-soft:#c0c5ac; --ink-faint:#8a8f76;
+  --line:rgba(255,255,255,.12); --gold:#e6c04e; --gold-bright:#ffd873; --teal:#3fd0b4; --glow:rgba(230,192,78,.18); }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Sora',system-ui,sans-serif;background:var(--ground);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:0 22px}
+.banner{width:100%;border-radius:16px;border:1px solid var(--line);margin:26px 0 6px;display:block}
+h1{font-family:'Unbounded',sans-serif;font-size:clamp(1.7rem,5vw,2.5rem);font-weight:800;letter-spacing:-.02em;margin-top:20px}
+h1 .g{background:linear-gradient(100deg,var(--gold-bright),var(--gold) 45%,#93b25e);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lede{color:var(--ink-soft);margin-top:14px;font-size:1.05rem}
+.card{margin-top:26px;border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:22px}
+.card h2{font-family:'Space Mono',monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.dl{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.dl:last-child{border-bottom:none}
+.dl .n{font-family:'Unbounded',sans-serif;font-weight:700;font-size:.98rem}
+.dl a{font-family:'Space Mono',monospace;font-weight:700;font-size:.78rem;color:#17120a;background:var(--gold);padding:11px 18px;border-radius:100px;text-decoration:none;white-space:nowrap;transition:.15s}
+.dl a:hover{background:var(--gold-bright)}
+.muted{color:var(--ink-faint);font-size:.86rem;margin-top:18px}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:s .8s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes s{to{transform:rotate(360deg)}}
+.foot{margin:40px 0 50px;text-align:center;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--ink-faint)}
+.foot a{color:var(--ink-soft);text-decoration:none}
+.btn-ghost{display:inline-block;margin-top:16px;font-family:'Space Mono',monospace;font-weight:700;font-size:.78rem;color:var(--ink);border:1px solid var(--line);padding:11px 18px;border-radius:100px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Thank you for your <span class="g">order.</span></h1>
+  <p class="lede">Your high-resolution files are ready to download below. Bookmark this page: it is your download link, and it always gives fresh links for this order.</p>
+
+  <div class="card" id="panel">
+    <h2>Your downloads</h2>
+    <div id="list"><p class="muted"><span class="spin"></span>Preparing your files…</p></div>
+  </div>
+
+  <p class="muted" id="emailNote"></p>
+  <p class="muted">Each link works for 24 hours; reload this page for new ones. Trouble downloading? <a href="support.html#contact" style="color:var(--gold)">Contact support</a> and we'll sort it out.</p>
+  <a class="btn-ghost" href="shop.html">← Back to the shop</a>
+</div>
+<div class="foot">© 2026 Black Future Vision · <a href="index.html">blackfuturevision.com</a></div>
+
+<script>
+(async function(){
+  var list = document.getElementById('list');
+  var sid = new URLSearchParams(location.search).get('session_id');
+  if(!sid){ list.innerHTML = '<p class="muted">No order found. If you just paid, return via the confirmation email link.</p>'; return; }
+  try{
+    var r = await fetch('https://pgjiuwldexvjokzlzqlr.supabase.co/functions/v1/bfv-downloads?session_id=' + encodeURIComponent(sid));
+    if(!r.ok) throw new Error('status ' + r.status);
+    var d = await r.json();
+    try { localStorage.removeItem('bfv_cart'); } catch (e) {}
+    if(!d.downloads || !d.downloads.length){ list.innerHTML = '<p class="muted">Your order is confirmed, but no files were attached. Please contact support.</p>'; return; }
+    list.innerHTML = d.downloads.map(function(f){
+      var n = document.createElement('span'); n.textContent = f.name;   // names are escaped, never injected as HTML
+      return '<div class="dl"><span class="n">'+n.innerHTML+'</span><a href="'+encodeURI(f.url)+'" download>Download ↓</a></div>';
+    }).join('');
+    if(d.expected && d.downloads.length < d.expected){ document.getElementById('emailNote').textContent = 'Some files are still being prepared. Reload in a minute, or contact support.'; }
+  }catch(e){
+    list.innerHTML = '<p class="muted">We couldn\'t verify this order yet. If you were charged, wait a moment and refresh, or contact support.</p>';
+  }
+})();
+</script>
+</body>
+</html>

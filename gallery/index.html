@@ -61,6 +61,8 @@
   .lb a.lb-alt{display:block;margin-top:16px;padding:12px 0;font-size:.82rem;color:var(--emerald);text-decoration:none;border-top:1px solid rgba(255,255,255,.1)}
   .lb a.lb-alt:hover{text-decoration:underline}
   .lb button.close{min-height:44px}
+  .lb [hidden]{display:none!important}
+  .lb button.buy{display:block;width:100%;margin-top:14px;min-height:48px;background:var(--gold);color:var(--gold-ink);font-family:'Sora',system-ui,sans-serif;font-weight:600;font-size:.86rem;border:none;border-radius:100px;cursor:pointer}
   /* walk controls */
   .ctl{position:absolute;right:clamp(12px,3vw,24px);bottom:22px;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
   .pill{pointer-events:auto;min-height:44px;padding:0 18px;border-radius:100px;border:1px solid rgba(255,255,255,.18);background:rgba(5,6,10,.66);backdrop-filter:blur(8px);color:var(--ink);font:600 .8rem 'Sora',system-ui,sans-serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:border-color .14s}
@@ -128,6 +130,8 @@
     <div class="lb-sec" id="lbListed">
       <div class="lb-buyrow"><span class="lb-price" id="lbPrice">$9.99</span><span class="lb-kind">Digital download</span></div>
       <a class="buy" id="lbBuy" href="#" target="_blank" rel="noopener">Buy on Etsy →</a>
+      <button class="buy" id="lbAdd" type="button" hidden>Add to cart</button>
+      <a class="lb-alt" id="lbCart" href="../shop.html?cart=open" hidden>View cart and check out →</a>
       <div class="lb-note">Instant high-resolution download. Print it at home or at any print shop.</div>
       <a class="lb-alt" href="https://www.etsy.com/shop/BlackFutureVision" target="_blank" rel="noopener">Shop framed, canvas and acrylic prints on Etsy →</a>
     </div>
@@ -567,10 +571,16 @@ function tapScreen(s){
 
 // ===== PRODUCT CARD: one honest action per piece — its own Etsy listing, at the shop's price =====
 const lb=$('lb'), lbOpen=()=>lb.classList.contains('open');
-function openLB(d){ const url=LISTING[d.slug]||null, price=priceOf(d.slug);
+// cart mode: once the checkout is connected the card adds to the same cart the shop page uses (localStorage "bfv_cart")
+const STORE_API='https://pgjiuwldexvjokzlzqlr.supabase.co/functions/v1'; let CART_ON=false, lbSlug=null;
+const readCart=()=>{ try{ return JSON.parse(localStorage.getItem('bfv_cart')||'{}'); }catch(e){ return {}; } };
+function syncCartButtons(){ const inCart=!!readCart()[lbSlug]; $('lbAdd').textContent=inCart?'In your cart \u2713':'Add to cart'; $('lbCart').hidden=!Object.keys(readCart()).length; }
+$('lbAdd').onclick=()=>{ const c=readCart(); c[lbSlug]=1; try{ localStorage.setItem('bfv_cart',JSON.stringify(c)); }catch(e){ console.warn('[gallery] cart not saved:',e.message); } syncCartButtons(); };
+fetch(STORE_API+'/bfv-checkout').then(r=>r.json()).then(st=>{ CART_ON=!!st.open||(QS.has('preview')&&(st.mode==='live'||!!st.testing)); }).catch(()=>{});
+function openLB(d){ const url=LISTING[d.slug]||null, price=priceOf(d.slug); lbSlug=d.slug;
   $('lbImg').src=d.img; $('lbImg').alt=d.name; $('lbName').textContent=d.name; $('lbEy').textContent=d.col||'Black Future Vision';
   $('lbListed').hidden=!url; $('lbUnlisted').hidden=!!url;
-  if(url){ $('lbPrice').textContent='$'+price.toFixed(2); $('lbBuy').href=url; }
+  if(url){ $('lbPrice').textContent='$'+price.toFixed(2); $('lbBuy').href=url; $('lbBuy').hidden=CART_ON; $('lbAdd').hidden=!CART_ON; $('lbCart').hidden=true; if(CART_ON)syncCartButtons(); }
   keys.clear(); lb.classList.add('open'); }
 function closeLB(){ lb.classList.remove('open'); }
 $('lbClose').onclick=closeLB; lb.addEventListener('click',e=>{ if(e.target===lb)closeLB(); });
